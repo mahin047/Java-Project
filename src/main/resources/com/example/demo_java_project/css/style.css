@@ -1,0 +1,344 @@
+/* =====================================================
+   SLOTSYNC - GLOBAL STYLES
+   ===================================================== */
+
+.root {
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 14px;
+}
+
+/* =====================================================
+   MAIN LOGIN ROOT
+   ===================================================== */
+
+.login-root {
+    -fx-background-color: #ffffff;
+}
+
+
+/* =====================================================
+   LEFT HERO PANEL
+   ===================================================== */
+
+.left-panel {
+    -fx-background-color: linear-gradient(
+            from 0% 0% to 100% 100%,
+            #7c3aed 0%,
+            #2563eb 50%,
+            #06b6d4 100%
+    );
+}
+
+/* Decorative background bubbles */
+
+.bubble {
+    -fx-fill: rgba(255, 255, 255, 0.12);
+}
+
+/* Hero heading */
+
+.hero-title {
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+}
+
+/* Hero description */
+
+.hero-subtitle {
+    -fx-font-size: 14px;
+    -fx-text-fill: rgba(255, 255, 255, 0.85);
+}
+
+/* Feature chips */
+
+.chip {
+    -fx-background-color: rgba(255, 255, 255, 0.18);
+
+    -fx-background-radius: 20px;
+
+    -fx-border-color: rgba(255, 255, 255, 0.35);
+    -fx-border-radius: 20px;
+
+    -fx-padding: 6px 14px 6px 14px;
+
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+
+/* =====================================================
+   RIGHT LOGIN PANEL
+   ===================================================== */
+
+.right-panel {
+    -fx-background-color: #ffffff;
+    -fx-padding: 30px;
+}
+
+
+/* =====================================================
+   SLOTSYNC LOGO
+   ===================================================== */
+
+.logo-badge {
+    -fx-background-color: linear-gradient(
+            to bottom right,
+            #7c3aed,
+            #2563eb
+    );
+
+    -fx-background-radius: 16px;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(37, 99, 235, 0.40),
+            14,
+            0.1,
+            0,
+            4
+    );
+}
+
+.logo-letter {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+}
+
+
+/* =====================================================
+   LOGIN FORM HEADINGS
+   ===================================================== */
+
+.form-title {
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0f172a;
+}
+
+.form-subtitle {
+    -fx-font-size: 13px;
+    -fx-text-fill: #64748b;
+}
+
+
+/* =====================================================
+   INPUT LABELS
+   ===================================================== */
+
+.input-label {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #334155;
+}
+
+
+/* =====================================================
+   TEXT FIELD & PASSWORD FIELD
+   ===================================================== */
+
+.input-field {
+    -fx-background-color: #f8fafc;
+
+    -fx-background-insets: 0;
+    -fx-background-radius: 10px;
+
+    -fx-border-color: #cbd5e1;
+    -fx-border-width: 1px;
+    -fx-border-radius: 10px;
+
+    -fx-padding: 12px;
+
+    -fx-font-size: 14px;
+    -fx-text-fill: #0f172a;
+
+    -fx-prompt-text-fill: #94a3b8;
+}
+
+/* Focus effect */
+
+.input-field:focused {
+    -fx-background-color: #ffffff;
+
+    -fx-border-color: #2563eb;
+    -fx-border-width: 1.5px;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(37, 99, 235, 0.25),
+            8,
+            0,
+            0,
+            0
+    );
+}
+
+/* Password field with show/hide button */
+
+.password-input {
+    -fx-padding: 12px 62px 12px 12px;
+}
+
+
+/* =====================================================
+   SHOW / HIDE PASSWORD BUTTON
+   ===================================================== */
+
+.show-hide-button {
+    -fx-background-color: transparent;
+
+    -fx-text-fill: #2563eb;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+
+    -fx-cursor: hand;
+}
+
+.show-hide-button:hover {
+    -fx-text-fill: #7c3aed;
+}
+
+
+/* =====================================================
+   PRIMARY BUTTON
+   ===================================================== */
+
+.primary-button {
+    -fx-background-color: linear-gradient(
+            to right,
+            #7c3aed,
+            #2563eb
+    );
+
+    -fx-text-fill: #ffffff;
+
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+
+    -fx-padding: 13px;
+
+    -fx-background-radius: 10px;
+
+    -fx-cursor: hand;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(37, 99, 235, 0.30),
+            12,
+            0.1,
+            0,
+            4
+    );
+}
+
+/* Hover effect */
+
+.primary-button:hover {
+    -fx-background-color: linear-gradient(
+            to right,
+            #6d28d9,
+            #1d4ed8
+    );
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(37, 99, 235, 0.45),
+            16,
+            0.15,
+            0,
+            5
+    );
+}
+
+/* Pressed effect */
+
+.primary-button:pressed {
+    -fx-opacity: 0.88;
+}
+
+/* Disabled state */
+
+.primary-button:disabled {
+    -fx-opacity: 0.60;
+    -fx-cursor: default;
+}
+
+
+/* =====================================================
+   SECONDARY BUTTON
+   ===================================================== */
+
+.secondary-button {
+    -fx-background-color: transparent;
+
+    -fx-border-color: #2563eb;
+    -fx-border-width: 1px;
+    -fx-border-radius: 10px;
+
+    -fx-background-radius: 10px;
+
+    -fx-text-fill: #2563eb;
+    -fx-font-weight: bold;
+
+    -fx-padding: 10px;
+
+    -fx-cursor: hand;
+}
+
+.secondary-button:hover {
+    -fx-background-color: #eff6ff;
+}
+
+.secondary-button:pressed {
+    -fx-background-color: #dbeafe;
+}
+
+
+/* =====================================================
+   SMALL TEXT & FOOTER
+   ===================================================== */
+
+.small-text {
+    -fx-font-size: 12px;
+    -fx-text-fill: #64748b;
+}
+
+
+/* =====================================================
+   ERROR MESSAGE
+   ===================================================== */
+
+.error-label {
+    -fx-background-color: #fef2f2;
+
+    -fx-border-color: #fecaca;
+    -fx-border-radius: 8px;
+
+    -fx-background-radius: 8px;
+
+    -fx-padding: 8px 12px 8px 12px;
+
+    -fx-text-fill: #b91c1c;
+    -fx-font-size: 12px;
+}
+
+
+/* =====================================================
+   SUCCESS MESSAGE
+   ===================================================== */
+
+.success-label {
+    -fx-background-color: #f0fdf4;
+
+    -fx-border-color: #bbf7d0;
+    -fx-border-radius: 8px;
+
+    -fx-background-radius: 8px;
+
+    -fx-padding: 8px 12px 8px 12px;
+
+    -fx-text-fill: #15803d;
+    -fx-font-size: 12px;
+}
