@@ -4,8 +4,10 @@ import com.example.demo_java_project.util.SceneNavigator;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-
 import java.net.URL;
+
+
+
 
 public class SlotSyncApplication extends Application {
 
