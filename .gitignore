@@ -3,3 +3,5 @@ target/
 *.iml
 .DS_Store
 .vscode/
+# Local database credentials
+src/main/resources/com/example/demo_java_project/db.properties
