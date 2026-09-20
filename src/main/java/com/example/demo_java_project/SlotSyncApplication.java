@@ -1,5 +1,6 @@
 package com.example.demo_java_project;
 
+import com.example.demo_java_project.service.AuthService;
 import com.example.demo_java_project.util.SceneNavigator;
 import javafx.application.Application;
 import javafx.scene.image.Image;
@@ -16,7 +17,6 @@ public class SlotSyncApplication extends Application {
 
         SceneNavigator.init(stage);
 
-        // optional app icon (skipped if file is missing)
         URL iconUrl = SlotSyncApplication.class.getResource(
                 "/com/example/demo_java_project/images/slotsync-icon.png");
         if (iconUrl != null) {
@@ -30,6 +30,21 @@ public class SlotSyncApplication extends Application {
 
         stage.centerOnScreen();
         stage.show();
+
+        seedTestUsersInBackground();
+    }
+
+    /** DEV ONLY: creates admin/student test accounts without freezing the UI. */
+    private void seedTestUsersInBackground() {
+        Thread seeder = new Thread(() -> {
+            try {
+                new AuthService().seedDefaultUsers();
+            } catch (Exception e) {
+                System.err.println("Seeding skipped: " + e.getMessage());
+            }
+        }, "db-seeder");
+        seeder.setDaemon(true);
+        seeder.start();
     }
 
     public static void main(String[] args) {

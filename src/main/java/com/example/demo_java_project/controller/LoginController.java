@@ -1,5 +1,9 @@
 package com.example.demo_java_project.controller;
 
+import com.example.demo_java_project.exception.AuthenticationException;
+import com.example.demo_java_project.model.User;
+import com.example.demo_java_project.service.AuthService;
+import com.example.demo_java_project.session.SessionManager;
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
@@ -24,12 +28,10 @@ import java.net.URL;
 
 public class LoginController {
 
-    // TEMPORARY dummy credentials (will be replaced by MySQL check later)
-    private static final String DUMMY_USER = "admin@slotsync.com";
-    private static final String DUMMY_PASS = "admin123";
-
     private static final String HERO_IMAGE_PATH =
             "/com/example/demo_java_project/images/slotsync-hero.png";
+
+    private final AuthService authService = new AuthService();
 
     @FXML private VBox formBox;
     @FXML private ImageView heroImage;
@@ -45,17 +47,12 @@ public class LoginController {
     @FXML private Button loginButton;
     @FXML private ProgressIndicator loadingIndicator;
 
-    // ---------------------------------------------------------------
-    // Runs automatically after the FXML is loaded
-    // ---------------------------------------------------------------
     @FXML
     private void initialize() {
         loadHeroImage();
 
-        // keep the hidden TextField and PasswordField in sync
         passwordTextField.textProperty().bindBidirectional(passwordField.textProperty());
 
-        // press ENTER inside a field = login
         emailField.setOnAction(e -> passwordField.requestFocus());
         passwordField.setOnAction(e -> handleLogin());
         passwordTextField.setOnAction(e -> handleLogin());
@@ -64,51 +61,49 @@ public class LoginController {
     }
 
     // ---------------------------------------------------------------
-    // LOGIN
+    // LOGIN (real database check on a background thread)
     // ---------------------------------------------------------------
     @FXML
     private void handleLogin() {
         hideMessage();
 
-        final String email = emailField.getText().trim();
+        final String identifier = emailField.getText().trim();
         final String password = passwordField.getText();
 
-        if (email.isEmpty() || password.isEmpty()) {
+        if (identifier.isEmpty() || password.isEmpty()) {
             showMessage("Please enter both email / student ID and password.", true);
-            shake(formBox);
-            return;
-        }
-
-        if (password.length() < 4) {
-            showMessage("Password must be at least 4 characters.", true);
             shake(formBox);
             return;
         }
 
         setLoading(true);
 
-        // Background thread -> UI never freezes (Multithreading concept)
-        Task<Boolean> loginTask = new Task<Boolean>() {
+        Task<User> loginTask = new Task<User>() {
             @Override
-            protected Boolean call() throws Exception {
-                Thread.sleep(900); // simulate network / DB delay
-                return DUMMY_USER.equalsIgnoreCase(email) && DUMMY_PASS.equals(password);
+            protected User call() throws Exception {
+                return authService.login(identifier, password);
             }
         };
 
         loginTask.setOnSucceeded(e -> {
             setLoading(false);
-            if (loginTask.getValue()) {
-                showMessage("Login successful! Dashboard will open in the next step.", false);
-            } else {
-                showMessage("Invalid email / student ID or password.", true);
-                shake(formBox);
-            }
+            User user = loginTask.getValue();
+            SessionManager.login(user);
+            showMessage("Welcome, " + user.getFullName() + " (" + user.getRole()
+                    + "). Dashboard will open in the next step.", false);
         });
 
         loginTask.setOnFailed(e -> {
             setLoading(false);
-            showMessage("Something went wrong. Please try again.", true);
+            Throwable error = loginTask.getException();
+
+            if (error instanceof AuthenticationException) {
+                showMessage(error.getMessage(), true);
+            } else {
+                error.printStackTrace();
+                showMessage("Something went wrong. Please try again.", true);
+            }
+            shake(formBox);
         });
 
         Thread worker = new Thread(loginTask, "login-worker");
@@ -152,7 +147,6 @@ public class LoginController {
         if (url != null) {
             heroImage.setImage(new Image(url.toExternalForm(), true));
         } else {
-            // image missing -> app still works, gradient only
             heroImage.setVisible(false);
             heroImage.setManaged(false);
         }
@@ -185,7 +179,6 @@ public class LoginController {
     // Animations
     // ---------------------------------------------------------------
     private void playIntroAnimation() {
-        // form card: fade in + slide up
         formBox.setOpacity(0);
         formBox.setTranslateY(30);
 
@@ -198,7 +191,6 @@ public class LoginController {
 
         new ParallelTransition(fade, slide).play();
 
-        // endless floating motion (dynamic vibe)
         floatNode(bubble1, 25, 30, 6);
         floatNode(bubble2, -30, -25, 7);
         floatNode(bubble3, 20, -20, 5);
