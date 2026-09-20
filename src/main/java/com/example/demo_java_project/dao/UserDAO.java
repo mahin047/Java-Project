@@ -46,6 +46,18 @@ public class UserDAO {
             }
         }
     }
+    public boolean existsByStudentId(String studentId) throws SQLException {
+        String sql = "SELECT 1 FROM users WHERE student_id = ? LIMIT 1";
+
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, studentId);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        }
+    }
 
     /** Inserts a user and returns the generated id. */
     public int insert(User user) throws SQLException {

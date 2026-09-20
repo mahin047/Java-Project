@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+
+<HBox xmlns="http://javafx.com/javafx/26"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.demo_java_project.controller.SignupController"
+      stylesheets="@../css/style.css"
+      styleClass="login-root">
+
+    <!-- ================= LEFT PANEL ================= -->
+    <StackPane styleClass="left-panel" HBox.hgrow="ALWAYS">
+
+        <Circle fx:id="bubble1" radius="160" styleClass="bubble"
+                mouseTransparent="true" translateX="-70" translateY="-70"
+                StackPane.alignment="TOP_LEFT"/>
+        <Circle fx:id="bubble2" radius="110" styleClass="bubble"
+                mouseTransparent="true" translateX="50" translateY="50"
+                StackPane.alignment="BOTTOM_RIGHT"/>
+        <Circle fx:id="bubble3" radius="55" styleClass="bubble"
+                mouseTransparent="true" translateX="-90" translateY="110"
+                StackPane.alignment="TOP_RIGHT"/>
+
+        <VBox alignment="CENTER" spacing="20" maxWidth="460">
+            <padding>
+                <Insets top="40" right="40" bottom="40" left="40"/>
+            </padding>
+
+            <ImageView fx:id="heroImage"
+                       fitWidth="400" fitHeight="300"
+                       preserveRatio="true" smooth="true"/>
+
+            <Label text="Join SlotSync today"
+                   styleClass="hero-title"
+                   wrapText="true" textAlignment="CENTER"/>
+
+            <Label text="Create your account and start booking labs, rooms and equipment in seconds."
+                   styleClass="hero-subtitle"
+                   wrapText="true" textAlignment="CENTER"/>
+
+            <HBox alignment="CENTER" spacing="10">
+                <Label text="Free" styleClass="chip"/>
+                <Label text="Instant Booking" styleClass="chip"/>
+                <Label text="Secure" styleClass="chip"/>
+            </HBox>
+        </VBox>
+    </StackPane>
+
+    <!-- ================= RIGHT PANEL : signup form ================= -->
+    <VBox alignment="CENTER"
+          prefWidth="460" minWidth="420" maxWidth="460"
+          styleClass="right-panel">
+
+        <ScrollPane fitToWidth="true"
+                    hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
+                    styleClass="form-scroll"
+                    VBox.vgrow="ALWAYS">
+            <StackPane>
+                <padding>
+                    <Insets top="6" right="6" bottom="6" left="6"/>
+                </padding>
+
+                <VBox fx:id="formBox" spacing="12" alignment="CENTER" maxWidth="340">
+
+                    <Label text="Create account" styleClass="form-title"/>
+                    <Label text="Fill in your details to get started" styleClass="form-subtitle"/>
+
+                    <VBox spacing="5">
+                        <Label text="Full Name" styleClass="input-label"/>
+                        <TextField fx:id="fullNameField"
+                                   promptText="e.g. Ullash Ahmed"
+                                   styleClass="input-field"/>
+                    </VBox>
+
+                    <VBox spacing="5">
+                        <Label text="Email" styleClass="input-label"/>
+                        <TextField fx:id="emailField"
+                                   promptText="you@example.com"
+                                   styleClass="input-field"/>
+                    </VBox>
+
+                    <VBox spacing="5">
+                        <Label text="Student ID" styleClass="input-label"/>
+                        <TextField fx:id="studentIdField"
+                                   promptText="e.g. 2101001"
+                                   styleClass="input-field"/>
+                    </VBox>
+
+                    <VBox spacing="5">
+                        <Label text="Password" styleClass="input-label"/>
+                        <PasswordField fx:id="passwordField"
+                                       promptText="Min 8 characters, letters + digits"
+                                       styleClass="input-field"/>
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <ProgressBar fx:id="strengthBar"
+                                         progress="0"
+                                         prefHeight="8"
+                                         HBox.hgrow="ALWAYS"
+                                         maxWidth="Infinity"
+                                         styleClass="strength-bar"/>
+                            <Label fx:id="strengthLabel"
+                                   minWidth="55"
+                                   styleClass="strength-text"/>
+                        </HBox>
+                    </VBox>
+
+                    <VBox spacing="5">
+                        <Label text="Confirm Password" styleClass="input-label"/>
+                        <PasswordField fx:id="confirmPasswordField"
+                                       promptText="Re-enter your password"
+                                       styleClass="input-field"/>
+                    </VBox>
+
+                    <Label fx:id="messageLabel"
+                           visible="false" managed="false"
+                           wrapText="true" maxWidth="Infinity"/>
+
+                    <Button fx:id="registerButton"
+                            text="CREATE ACCOUNT"
+                            defaultButton="true"
+                            onAction="#handleRegister"
+                            maxWidth="Infinity"
+                            styleClass="primary-button"/>
+
+                    <ProgressIndicator fx:id="loadingIndicator"
+                                       visible="false" managed="false"
+                                       prefWidth="24" prefHeight="24"
+                                       maxWidth="24" maxHeight="24"/>
+
+                    <HBox alignment="CENTER" spacing="4">
+                        <Label text="Already have an account?" styleClass="small-text"/>
+                        <Button text="Login"
+                                onAction="#openLogin"
+                                styleClass="link-button"/>
+                    </HBox>
+                </VBox>
+            </StackPane>
+        </ScrollPane>
+    </VBox>
+
+</HBox>

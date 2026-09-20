@@ -342,3 +342,51 @@
     -fx-text-fill: #15803d;
     -fx-font-size: 12px;
 }
+/* ============ SIGNUP additions ============ */
+.form-scroll {
+    -fx-background: transparent;
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.form-scroll > .viewport {
+    -fx-background-color: transparent;
+}
+
+.strength-bar > .track {
+    -fx-background-color: #e2e8f0;
+    -fx-background-radius: 4;
+    -fx-background-insets: 0;
+}
+
+.strength-bar > .bar {
+    -fx-background-color: -fx-accent;
+    -fx-background-radius: 4;
+    -fx-background-insets: 0;
+    -fx-padding: 4;
+}
+
+.strength-weak   { -fx-accent: #ef4444; }
+.strength-fair   { -fx-accent: #f59e0b; }
+.strength-good   { -fx-accent: #3b82f6; }
+.strength-strong { -fx-accent: #22c55e; }
+
+.strength-text {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #64748b;
+}
+
+.link-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #2563eb;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-padding: 0;
+    -fx-cursor: hand;
+}
+
+.link-button:hover {
+    -fx-text-fill: #7c3aed;
+    -fx-underline: true;
+}
