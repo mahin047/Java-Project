@@ -87,10 +87,8 @@ public class LoginController {
 
         loginTask.setOnSucceeded(e -> {
             setLoading(false);
-            User user = loginTask.getValue();
-            SessionManager.login(user);
-            showMessage("Welcome, " + user.getFullName() + " (" + user.getRole()
-                    + "). Dashboard will open in the next step.", false);
+            SessionManager.login(loginTask.getValue());
+            SceneNavigator.navigateTo("main-layout.fxml", "SlotSync - Dashboard");
         });
 
         loginTask.setOnFailed(e -> {

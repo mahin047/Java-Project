@@ -1,132 +1,170 @@
-/* =====================================================
-   SLOTSYNC - GLOBAL STYLES
-   ===================================================== */
+/* =========================================================
+       SLOTSYNC - PREMIUM GLOBAL STYLES
+       Modern SaaS | Colorful | Professional | Dynamic UI
+       ========================================================= */
 
 .root {
     -fx-font-family: "Segoe UI";
     -fx-font-size: 14px;
+    -fx-accent: #6366f1;
+    -fx-focus-color: #818cf8;
+    -fx-faint-focus-color: rgba(99, 102, 241, 0.15);
 }
 
-/* =====================================================
+/* =========================================================
+   COLOR PALETTE
+   ========================================================= */
+
+/*
+   Primary       : #6366F1
+   Violet        : #8B5CF6
+   Blue          : #3B82F6
+   Cyan          : #06B6D4
+   Dark Navy     : #0F172A
+   Soft White    : #F8FAFC
+*/
+
+/* =========================================================
    MAIN LOGIN ROOT
-   ===================================================== */
+   ========================================================= */
 
 .login-root {
-    -fx-background-color: #ffffff;
+    -fx-background-color: #F8FAFC;
 }
 
-
-/* =====================================================
+/* =========================================================
    LEFT HERO PANEL
-   ===================================================== */
+   ========================================================= */
 
 .left-panel {
     -fx-background-color: linear-gradient(
-            from 0% 0% to 100% 100%,
-            #7c3aed 0%,
-            #2563eb 50%,
-            #06b6d4 100%
+            to bottom right,
+            #312E81,
+            #4F46E5,
+            #0891B2
     );
 }
 
-/* Decorative background bubbles */
+/* Decorative bubbles */
 
 .bubble {
-    -fx-fill: rgba(255, 255, 255, 0.12);
+    -fx-fill: rgba(255, 255, 255, 0.10);
+    -fx-stroke: rgba(255, 255, 255, 0.15);
+    -fx-stroke-width: 1px;
 }
 
 /* Hero heading */
 
 .hero-title {
-    -fx-font-size: 26px;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 30px;
     -fx-font-weight: bold;
-    -fx-text-fill: #ffffff;
+    -fx-text-fill: #FFFFFF;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(15, 23, 42, 0.18),
+            10,
+            0.15,
+            0,
+            3
+    );
 }
 
 /* Hero description */
 
 .hero-subtitle {
     -fx-font-size: 14px;
-    -fx-text-fill: rgba(255, 255, 255, 0.85);
+    -fx-text-fill: #EDE9FE;
+    -fx-line-spacing: 5px;
 }
 
 /* Feature chips */
 
 .chip {
-    -fx-background-color: rgba(255, 255, 255, 0.18);
+    -fx-background-color: rgba(255, 255, 255, 0.15);
 
-    -fx-background-radius: 20px;
+    -fx-background-radius: 30px;
 
-    -fx-border-color: rgba(255, 255, 255, 0.35);
-    -fx-border-radius: 20px;
+    -fx-border-color: rgba(255, 255, 255, 0.30);
+    -fx-border-width: 1px;
+    -fx-border-radius: 30px;
 
-    -fx-padding: 6px 14px 6px 14px;
+    -fx-padding: 8px 16px;
 
-    -fx-text-fill: #ffffff;
+    -fx-text-fill: #FFFFFF;
     -fx-font-size: 12px;
     -fx-font-weight: bold;
+
+    -fx-cursor: hand;
 }
 
+.chip:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.25);
+    -fx-border-color: rgba(255, 255, 255, 0.60);
+}
 
-/* =====================================================
+/* =========================================================
    RIGHT LOGIN PANEL
-   ===================================================== */
+   ========================================================= */
 
 .right-panel {
-    -fx-background-color: #ffffff;
-    -fx-padding: 30px;
+    -fx-background-color: #F4F7FC;
 }
 
 
-/* =====================================================
+/* =========================================================
    SLOTSYNC LOGO
-   ===================================================== */
+   ========================================================= */
 
 .logo-badge {
-    -fx-background-color: linear-gradient(
-            to bottom right,
-            #7c3aed,
-            #2563eb
+    -fx-background-color: linear-gradient(to bottom right,
+    #8B5CF6 0%,
+    #6366F1 50%,
+    #3B82F6 100%
     );
 
-    -fx-background-radius: 16px;
+    -fx-background-radius: 18px;
+
+    -fx-border-color: rgba(255, 255, 255, 0.35);
+    -fx-border-radius: 18px;
 
     -fx-effect: dropshadow(
             gaussian,
-            rgba(37, 99, 235, 0.40),
-            14,
-            0.1,
+            rgba(99, 102, 241, 0.40),
+            22,
+            0.25,
             0,
-            4
+            7
     );
 }
 
 .logo-letter {
-    -fx-text-fill: #ffffff;
+    -fx-text-fill: #FFFFFF;
     -fx-font-size: 28px;
     -fx-font-weight: bold;
 }
 
-
-/* =====================================================
+/* =========================================================
    LOGIN FORM HEADINGS
-   ===================================================== */
+   ========================================================= */
 
 .form-title {
-    -fx-font-size: 26px;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 28px;
     -fx-font-weight: bold;
-    -fx-text-fill: #0f172a;
+    -fx-text-fill: #0F172A;
 }
 
 .form-subtitle {
     -fx-font-size: 13px;
-    -fx-text-fill: #64748b;
+    -fx-text-fill: #64748B;
+    -fx-line-spacing: 3px;
 }
 
-
-/* =====================================================
+/* =========================================================
    INPUT LABELS
-   ===================================================== */
+   ========================================================= */
 
 .input-label {
     -fx-font-size: 13px;
@@ -134,62 +172,73 @@
     -fx-text-fill: #334155;
 }
 
-
-/* =====================================================
+/* =========================================================
    TEXT FIELD & PASSWORD FIELD
-   ===================================================== */
+   ========================================================= */
 
 .input-field {
-    -fx-background-color: #f8fafc;
+    -fx-background-color: #F8FAFC;
 
     -fx-background-insets: 0;
-    -fx-background-radius: 10px;
+    -fx-background-radius: 12px;
 
-    -fx-border-color: #cbd5e1;
-    -fx-border-width: 1px;
-    -fx-border-radius: 10px;
+    -fx-border-color: #E2E8F0;
+    -fx-border-width: 1.2px;
+    -fx-border-radius: 12px;
 
-    -fx-padding: 12px;
+    -fx-padding: 13px 15px;
 
+    -fx-font-family: "Segoe UI";
     -fx-font-size: 14px;
-    -fx-text-fill: #0f172a;
+    -fx-text-fill: #0F172A;
 
-    -fx-prompt-text-fill: #94a3b8;
+    -fx-prompt-text-fill: #94A3B8;
+
+    -fx-highlight-fill: #C7D2FE;
+    -fx-highlight-text-fill: #1E1B4B;
 }
 
-/* Focus effect */
+/* Input hover */
+
+.input-field:hover {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #A5B4FC;
+}
+
+/* Input focus */
 
 .input-field:focused {
-    -fx-background-color: #ffffff;
+    -fx-background-color: #FFFFFF;
 
-    -fx-border-color: #2563eb;
+    -fx-border-color: #6366F1;
     -fx-border-width: 1.5px;
 
     -fx-effect: dropshadow(
             gaussian,
-            rgba(37, 99, 235, 0.25),
-            8,
+            rgba(99, 102, 241, 0.22),
+            14,
+            0.20,
             0,
-            0,
-            0
+            3
     );
 }
 
 /* Password field with show/hide button */
 
 .password-input {
-    -fx-padding: 12px 62px 12px 12px;
+    -fx-padding: 13px 65px 13px 15px;
 }
 
-
-/* =====================================================
+/* =========================================================
    SHOW / HIDE PASSWORD BUTTON
-   ===================================================== */
+   ========================================================= */
 
 .show-hide-button {
     -fx-background-color: transparent;
 
-    -fx-text-fill: #2563eb;
+    -fx-background-radius: 8px;
+
+    -fx-text-fill: #6366F1;
     -fx-font-size: 12px;
     -fx-font-weight: bold;
 
@@ -197,155 +246,195 @@
 }
 
 .show-hide-button:hover {
-    -fx-text-fill: #7c3aed;
+    -fx-text-fill: #7C3AED;
+    -fx-background-color: #F5F3FF;
 }
 
+.show-hide-button:pressed {
+    -fx-text-fill: #4F46E5;
+}
 
-/* =====================================================
+/* =========================================================
    PRIMARY BUTTON
-   ===================================================== */
+   ========================================================= */
 
 .primary-button {
-    -fx-background-color: linear-gradient(
-            to right,
-            #7c3aed,
-            #2563eb
+    -fx-background-color: linear-gradient(to bottom right,
+    #7C3AED 0%,
+    #6366F1 50%,
+    #3B82F6 100%
     );
 
-    -fx-text-fill: #ffffff;
+    -fx-background-radius: 12px;
+    -fx-background-insets: 0;
 
+    -fx-border-color: rgba(255, 255, 255, 0.15);
+    -fx-border-radius: 12px;
+
+    -fx-text-fill: #FFFFFF;
+
+    -fx-font-family: "Segoe UI";
     -fx-font-size: 14px;
     -fx-font-weight: bold;
 
-    -fx-padding: 13px;
-
-    -fx-background-radius: 10px;
+    -fx-padding: 14px 20px;
 
     -fx-cursor: hand;
 
     -fx-effect: dropshadow(
             gaussian,
-            rgba(37, 99, 235, 0.30),
-            12,
-            0.1,
+            rgba(99, 102, 241, 0.35),
+            18,
+            0.22,
             0,
-            4
+            6
     );
 }
 
-/* Hover effect */
+/* Button hover */
 
 .primary-button:hover {
-    -fx-background-color: linear-gradient(
-            to right,
-            #6d28d9,
-            #1d4ed8
+    -fx-background-color: linear-gradient(to bottom right,
+    #6D28D9 0%,
+    #4F46E5 50%,
+    #2563EB 100%
     );
 
     -fx-effect: dropshadow(
             gaussian,
-            rgba(37, 99, 235, 0.45),
-            16,
-            0.15,
+            rgba(99, 102, 241, 0.50),
+            24,
+            0.28,
             0,
-            5
+            8
     );
 }
 
-/* Pressed effect */
+/* Button pressed */
 
 .primary-button:pressed {
-    -fx-opacity: 0.88;
+    -fx-opacity: 0.92;
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(79, 70, 229, 0.25),
+            8,
+            0.15,
+            0,
+            2
+    );
 }
 
-/* Disabled state */
+/* Button disabled */
 
 .primary-button:disabled {
-    -fx-opacity: 0.60;
+    -fx-opacity: 0.55;
+    -fx-effect: none;
     -fx-cursor: default;
 }
 
-
-/* =====================================================
+/* =========================================================
    SECONDARY BUTTON
-   ===================================================== */
+   ========================================================= */
 
 .secondary-button {
-    -fx-background-color: transparent;
+    -fx-background-color: #FFFFFF;
 
-    -fx-border-color: #2563eb;
-    -fx-border-width: 1px;
-    -fx-border-radius: 10px;
+    -fx-background-radius: 12px;
 
-    -fx-background-radius: 10px;
+    -fx-border-color: #C7D2FE;
+    -fx-border-width: 1.2px;
+    -fx-border-radius: 12px;
 
-    -fx-text-fill: #2563eb;
+    -fx-text-fill: #4F46E5;
+
+    -fx-font-size: 13px;
     -fx-font-weight: bold;
 
-    -fx-padding: 10px;
+    -fx-padding: 11px 18px;
 
     -fx-cursor: hand;
 }
 
 .secondary-button:hover {
-    -fx-background-color: #eff6ff;
+    -fx-background-color: #EEF2FF;
+    -fx-border-color: #818CF8;
+
+    -fx-effect: dropshadow(
+            gaussian,
+            rgba(99, 102, 241, 0.15),
+            12,
+            0.15,
+            0,
+            3
+    );
 }
 
 .secondary-button:pressed {
-    -fx-background-color: #dbeafe;
+    -fx-background-color: #E0E7FF;
 }
 
-
-/* =====================================================
+/* =========================================================
    SMALL TEXT & FOOTER
-   ===================================================== */
+   ========================================================= */
 
 .small-text {
     -fx-font-size: 12px;
-    -fx-text-fill: #64748b;
+    -fx-text-fill: #64748B;
 }
 
+.small-text:hover {
+    -fx-text-fill: #475569;
+}
 
-/* =====================================================
+/* =========================================================
    ERROR MESSAGE
-   ===================================================== */
+   ========================================================= */
 
 .error-label {
-    -fx-background-color: #fef2f2;
+    -fx-background-color: #FFF1F2;
 
-    -fx-border-color: #fecaca;
-    -fx-border-radius: 8px;
+    -fx-background-radius: 10px;
 
-    -fx-background-radius: 8px;
+    -fx-border-color: #FECDD3;
+    -fx-border-width: 1px;
+    -fx-border-radius: 10px;
 
-    -fx-padding: 8px 12px 8px 12px;
+    -fx-padding: 10px 14px;
 
-    -fx-text-fill: #b91c1c;
+    -fx-text-fill: #BE123C;
     -fx-font-size: 12px;
+    -fx-font-weight: bold;
 }
 
-
-/* =====================================================
+/* =========================================================
    SUCCESS MESSAGE
-   ===================================================== */
+   ========================================================= */
 
 .success-label {
-    -fx-background-color: #f0fdf4;
+    -fx-background-color: #ECFDF5;
 
-    -fx-border-color: #bbf7d0;
-    -fx-border-radius: 8px;
+    -fx-background-radius: 10px;
 
-    -fx-background-radius: 8px;
+    -fx-border-color: #A7F3D0;
+    -fx-border-width: 1px;
+    -fx-border-radius: 10px;
 
-    -fx-padding: 8px 12px 8px 12px;
+    -fx-padding: 10px 14px;
 
-    -fx-text-fill: #15803d;
+    -fx-text-fill: #047857;
     -fx-font-size: 12px;
+    -fx-font-weight: bold;
 }
-/* ============ SIGNUP additions ============ */
+
+/* =========================================================
+   SIGNUP - SCROLL PANE
+   ========================================================= */
+
 .form-scroll {
-    -fx-background: transparent;
     -fx-background-color: transparent;
+    -fx-background: transparent;
+
+    -fx-border-color: transparent;
     -fx-padding: 0;
 }
 
@@ -353,40 +442,130 @@
     -fx-background-color: transparent;
 }
 
+.form-scroll > .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-pref-width: 7px;
+}
+
+.form-scroll > .scroll-bar:vertical > .thumb {
+    -fx-background-color: #C7D2FE;
+    -fx-background-radius: 10px;
+}
+
+.form-scroll > .scroll-bar:vertical > .thumb:hover {
+    -fx-background-color: #818CF8;
+}
+
+/* =========================================================
+   PASSWORD STRENGTH BAR
+   ========================================================= */
+
+.strength-bar {
+    -fx-background-color: transparent;
+}
+
 .strength-bar > .track {
-    -fx-background-color: #e2e8f0;
-    -fx-background-radius: 4;
+    -fx-background-color: #E2E8F0;
+    -fx-background-radius: 8px;
     -fx-background-insets: 0;
 }
 
 .strength-bar > .bar {
     -fx-background-color: -fx-accent;
-    -fx-background-radius: 4;
+    -fx-background-radius: 8px;
     -fx-background-insets: 0;
-    -fx-padding: 4;
+    -fx-padding: 4px;
 }
 
-.strength-weak   { -fx-accent: #ef4444; }
-.strength-fair   { -fx-accent: #f59e0b; }
-.strength-good   { -fx-accent: #3b82f6; }
-.strength-strong { -fx-accent: #22c55e; }
+/* Strength levels */
+
+.strength-weak {
+    -fx-accent: #EF4444;
+}
+
+.strength-fair {
+    -fx-accent: #F59E0B;
+}
+
+.strength-good {
+    -fx-accent: #3B82F6;
+}
+
+.strength-strong {
+    -fx-accent: #10B981;
+}
+
+/* =========================================================
+   PASSWORD STRENGTH TEXT
+   ========================================================= */
 
 .strength-text {
     -fx-font-size: 12px;
     -fx-font-weight: bold;
-    -fx-text-fill: #64748b;
+    -fx-text-fill: #64748B;
 }
+
+/* =========================================================
+   LINK BUTTONS
+   ========================================================= */
 
 .link-button {
     -fx-background-color: transparent;
-    -fx-text-fill: #2563eb;
+
+    -fx-background-radius: 6px;
+
+    -fx-text-fill: #6366F1;
+
     -fx-font-size: 12px;
     -fx-font-weight: bold;
-    -fx-padding: 0;
+
+    -fx-padding: 3px 0;
+
     -fx-cursor: hand;
 }
 
 .link-button:hover {
-    -fx-text-fill: #7c3aed;
+    -fx-text-fill: #7C3AED;
     -fx-underline: true;
 }
+
+.link-button:pressed {
+    -fx-text-fill: #4F46E5;
+}
+
+/* =========================================================
+   CHECKBOX - SIGNUP TERMS / REMEMBER ME
+   ========================================================= */
+
+.check-box {
+    -fx-text-fill: #475569;
+    -fx-font-size: 12px;
+    -fx-cursor: hand;
+}
+
+.check-box .box {
+    -fx-background-color: #FFFFFF;
+
+    -fx-border-color: #CBD5E1;
+    -fx-border-radius: 5px;
+
+    -fx-background-radius: 5px;
+}
+
+.check-box:hover .box {
+    -fx-border-color: #818CF8;
+}
+
+.check-box:selected .box {
+    -fx-background-color: #6366F1;
+    -fx-border-color: #6366F1;
+}
+
+.check-box:selected .mark {
+    -fx-background-color: #FFFFFF;
+}
+
+/* =========================================================
+   END OF SLOTSYNC PREMIUM STYLES
+   ========================================================= */
+
