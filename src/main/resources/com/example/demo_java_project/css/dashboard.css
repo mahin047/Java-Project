@@ -322,3 +322,11 @@
 .card-button-primary:hover {
     -fx-background-color: linear-gradient(to right, #6d28d9, #1d4ed8);
 }
+/* ============ Amenity tags (Phase 6.5) ============ */
+.amenity-tag {
+    -fx-background-color: #f1f5f9;
+    -fx-text-fill: #475569;
+    -fx-font-size: 10.5px;
+    -fx-background-radius: 12;
+    -fx-padding: 3 9 3 9;
+}

@@ -85,7 +85,7 @@ public class AuthService {
     // DEV ONLY: test accounts (remove before final submission)
     // ---------------------------------------------------------------
     public void seedDefaultUsers() throws SQLException {
-        createIfMissing("System Admin", "admin@slotsync.com", null,      "admin123",   Role.ADMIN);
+        createIfMissing("System Admin", "ullashmahin29@gmail.com", null,      "admin123",   Role.ADMIN);
         createIfMissing("Demo Student", "student@slotsync.com", "2101001", "student123", Role.STUDENT);
     }
 

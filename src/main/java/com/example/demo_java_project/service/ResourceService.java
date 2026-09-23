@@ -8,6 +8,7 @@ import com.example.demo_java_project.model.User;
 import com.example.demo_java_project.session.SessionManager;
 
 import java.sql.SQLException;
+import java.time.LocalTime;
 import java.util.List;
 
 public class ResourceService {
@@ -16,9 +17,6 @@ public class ResourceService {
 
     private final ResourceDAO resourceDAO = new ResourceDAO();
 
-    // ---------------------------------------------------------------
-    // READ (everyone). Admins also see inactive resources.
-    // ---------------------------------------------------------------
     public List<Resource> getResources(String keyword, String type) throws ServiceException {
         try {
             return resourceDAO.search(keyword, type, isAdmin());
@@ -27,9 +25,6 @@ public class ResourceService {
         }
     }
 
-    // ---------------------------------------------------------------
-    // WRITE (admin only)
-    // ---------------------------------------------------------------
     public void addResource(Resource draft) throws ServiceException {
         requireAdmin();
         Resource r = validated(draft);
@@ -68,8 +63,6 @@ public class ResourceService {
     }
 
     // ---------------------------------------------------------------
-    // Helpers
-    // ---------------------------------------------------------------
     private boolean isAdmin() {
         User user = SessionManager.getCurrentUser();
         return user != null && user.isAdmin();
@@ -81,12 +74,12 @@ public class ResourceService {
         }
     }
 
-    /** Trims, checks every rule, and returns a clean copy. */
     private Resource validated(Resource r) throws ServiceException {
         String name        = r.getName() == null ? "" : r.getName().trim();
         String type        = r.getType() == null ? "" : r.getType().trim();
-        String location    = r.getLocation().trim();
+        String location     = r.getLocation().trim();
         String description = r.getDescription().trim();
+        String amenities    = r.getAmenities().trim();
 
         if (name.length() < 2 || name.length() > 100)
             throw new ServiceException("Name must be 2-100 characters.");
@@ -98,9 +91,18 @@ public class ResourceService {
             throw new ServiceException("Location must be at most 100 characters.");
         if (description.length() > 255)
             throw new ServiceException("Description must be at most 255 characters.");
+        if (amenities.length() > 255)
+            throw new ServiceException("Amenities must be at most 255 characters.");
 
-        return new Resource(r.getId(), name, type, location,
-                r.getCapacity(), description, r.isActive());
+        LocalTime open = r.getOpenTime();
+        LocalTime close = r.getCloseTime();
+        if (open == null || close == null)
+            throw new ServiceException("Please set both opening and closing time.");
+        if (!close.isAfter(open))
+            throw new ServiceException("Closing time must be after opening time.");
+
+        return new Resource(r.getId(), name, type, location, r.getCapacity(),
+                open, close, description, amenities, r.isActive());
     }
 
     private ServiceException translate(SQLException e) {
