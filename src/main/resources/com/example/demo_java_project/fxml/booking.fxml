@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/26"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.demo_java_project.controller.BookingController"
+      spacing="16">
+
+    <padding>
+        <Insets top="26" right="28" bottom="20" left="28"/>
+    </padding>
+
+    <HBox spacing="16" alignment="CENTER_LEFT">
+        <VBox spacing="6">
+            <Label text="Resource" styleClass="input-label"/>
+            <ComboBox fx:id="resourceBox" prefWidth="240" styleClass="filter-combo"/>
+        </VBox>
+        <VBox spacing="6">
+            <Label text="Date" styleClass="input-label"/>
+            <DatePicker fx:id="datePicker" prefWidth="170"/>
+        </VBox>
+    </HBox>
+
+    <Label fx:id="hoursLabel" styleClass="small-text"/>
+
+    <HBox spacing="18" alignment="CENTER_LEFT">
+        <HBox spacing="6" alignment="CENTER_LEFT">
+            <Label styleClass="legend-dot, legend-free"/>
+            <Label text="Available" styleClass="small-text"/>
+        </HBox>
+        <HBox spacing="6" alignment="CENTER_LEFT">
+            <Label styleClass="legend-dot, legend-booked"/>
+            <Label text="Booked" styleClass="small-text"/>
+        </HBox>
+        <HBox spacing="6" alignment="CENTER_LEFT">
+            <Label styleClass="legend-dot, legend-past"/>
+            <Label text="Past" styleClass="small-text"/>
+        </HBox>
+    </HBox>
+
+    <ScrollPane fitToWidth="true" hbarPolicy="NEVER"
+                styleClass="page-scroll" VBox.vgrow="ALWAYS">
+        <content>
+            <FlowPane fx:id="slotPane" hgap="12" vgap="12">
+                <padding>
+                    <Insets top="4" right="4" bottom="12" left="4"/>
+                </padding>
+            </FlowPane>
+        </content>
+    </ScrollPane>
+
+</VBox>

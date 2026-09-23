@@ -7,6 +7,7 @@ import com.example.demo_java_project.util.ContentNavigator;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import com.example.demo_java_project.dao.BookingDAO;
 
 import java.time.LocalTime;
 
@@ -33,17 +34,23 @@ public class DashboardController {
         welcomeLabel.setText(greeting() + ", " + firstName + "!");
         loadStats();
     }
-
+    private final BookingDAO bookingDAO = new BookingDAO();
     private void loadStats() {
-        Task<Integer> task = new Task<Integer>() {
+        Task<int[]> task = new Task<int[]>() {
             @Override
-            protected Integer call() throws Exception {
-                return resourceDAO.countActive();
+            protected int[] call() throws Exception {
+                int resources = resourceDAO.countActive();
+                int myBookings = bookingDAO.countActiveByUser(SessionManager.getCurrentUser().getId());
+                int upcoming = bookingDAO.countUpcomingByUser(SessionManager.getCurrentUser().getId());
+                return new int[]{resources, myBookings, upcoming};
             }
         };
 
         task.setOnSucceeded(e -> {
-            resourceCountLabel.setText(String.valueOf(task.getValue()));
+            int[] r = task.getValue();
+            resourceCountLabel.setText(String.valueOf(r[0]));
+            myBookingsLabel.setText(String.valueOf(r[1]));
+            upcomingLabel.setText(String.valueOf(r[2]));
             setDbStatus("Connected", true);
         });
 

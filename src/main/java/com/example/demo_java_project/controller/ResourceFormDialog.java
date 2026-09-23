@@ -16,6 +16,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.geometry.Insets;
+import java.time.LocalTime;
 
 public class ResourceFormDialog extends Dialog<Resource> {
 
@@ -113,9 +114,18 @@ public class ResourceFormDialog extends Dialog<Resource> {
                     nameField.getText().trim(),
                     typeBox.getValue(),
                     locationField.getText().trim(),
-                    Integer.parseInt(capacityField.getText().trim()),   // already validated
+                    Integer.parseInt(capacityField.getText().trim()),
+
+                    // Opening and closing time
+                    editing ? existing.getOpenTime() : LocalTime.of(8, 0),
+                    editing ? existing.getCloseTime() : LocalTime.of(20, 0),
+
+                    // Description and amenities
                     descriptionArea.getText().trim(),
-                    activeBox.isSelected());
+                    editing ? existing.getAmenities() : "",
+
+                    activeBox.isSelected()
+            );
         });
     }
 

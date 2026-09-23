@@ -82,27 +82,43 @@ public class ResourceService {
     }
 
     /** Trims, checks every rule, and returns a clean copy. */
+    /** Trims, checks every rule, and returns a clean copy. */
     private Resource validated(Resource r) throws ServiceException {
-        String name        = r.getName() == null ? "" : r.getName().trim();
-        String type        = r.getType() == null ? "" : r.getType().trim();
-        String location    = r.getLocation().trim();
-        String description = r.getDescription().trim();
+
+        String name = r.getName() == null ? "" : r.getName().trim();
+        String type = r.getType() == null ? "" : r.getType().trim();
+        String location = r.getLocation() == null ? "" : r.getLocation().trim();
+        String description = r.getDescription() == null ? "" : r.getDescription().trim();
+        String amenities = r.getAmenities() == null ? "" : r.getAmenities().trim();
 
         if (name.length() < 2 || name.length() > 100)
             throw new ServiceException("Name must be 2-100 characters.");
+
         if (!Resource.TYPES.contains(type))
             throw new ServiceException("Please choose a valid resource type.");
+
         if (r.getCapacity() < 1 || r.getCapacity() > 1000)
             throw new ServiceException("Capacity must be between 1 and 1000.");
+
         if (location.length() > 100)
             throw new ServiceException("Location must be at most 100 characters.");
+
         if (description.length() > 255)
             throw new ServiceException("Description must be at most 255 characters.");
 
-        return new Resource(r.getId(), name, type, location,
-                r.getCapacity(), description, r.isActive());
+        return new Resource(
+                r.getId(),
+                name,
+                type,
+                location,
+                r.getCapacity(),
+                r.getOpenTime(),
+                r.getCloseTime(),
+                description,
+                amenities,
+                r.isActive()
+        );
     }
-
     private ServiceException translate(SQLException e) {
         if (e.getErrorCode() == MYSQL_DUPLICATE_ENTRY) {
             return new ServiceException("A resource with this name already exists.");

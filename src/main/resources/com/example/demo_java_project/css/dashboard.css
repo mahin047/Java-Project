@@ -322,3 +322,42 @@
 .card-button-primary:hover {
     -fx-background-color: linear-gradient(to right, #6d28d9, #1d4ed8);
 }
+/* ============ BOOKING page ============ */
+.slot-free {
+    -fx-background-color: #dcfce7;
+    -fx-text-fill: #15803d;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+    -fx-padding: 10;
+    -fx-cursor: hand;
+    -fx-border-color: #86efac;
+    -fx-border-radius: 10;
+}
+.slot-free:hover { -fx-background-color: #bbf7d0; }
+
+.slot-booked {
+    -fx-background-color: #fee2e2;
+    -fx-text-fill: #b91c1c;
+    -fx-background-radius: 10;
+    -fx-padding: 10;
+    -fx-border-color: #fecaca;
+    -fx-border-radius: 10;
+}
+
+.slot-past {
+    -fx-background-color: #f1f5f9;
+    -fx-text-fill: #94a3b8;
+    -fx-background-radius: 10;
+    -fx-padding: 10;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 10;
+}
+
+.legend-dot {
+    -fx-min-width: 14; -fx-min-height: 14;
+    -fx-max-width: 14; -fx-max-height: 14;
+    -fx-background-radius: 4;
+}
+.legend-free   { -fx-background-color: #86efac; }
+.legend-booked { -fx-background-color: #fca5a5; }
+.legend-past   { -fx-background-color: #cbd5e1; }

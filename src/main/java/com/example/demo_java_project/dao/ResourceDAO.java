@@ -1,5 +1,5 @@
 package com.example.demo_java_project.dao;
-
+import java.util.Optional;
 import com.example.demo_java_project.database.DatabaseConnection;
 import com.example.demo_java_project.model.Resource;
 
@@ -14,7 +14,8 @@ import java.util.List;
 public class ResourceDAO {
 
     private static final String COLUMNS =
-            "id, name, type, location, capacity, description, is_active";
+            "id, name, type, location, capacity, open_time, close_time, " +
+                    "description, amenities, is_active";
 
     /** Search by name/location and (optionally) type. Inactive ones only if asked. */
     public List<Resource> search(String keyword, String type, boolean includeInactive)
@@ -53,6 +54,18 @@ public class ResourceDAO {
             }
         }
         return result;
+    }
+    public Optional<Resource> findById(int id) throws SQLException {
+        String sql = "SELECT " + COLUMNS + " FROM resources WHERE id = ?";
+
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next() ? Optional.of(mapRow(rs)) : Optional.empty();
+            }
+        }
     }
 
     /** excludeId lets an edit keep its own name (use 0 when adding). */
@@ -135,13 +148,20 @@ public class ResourceDAO {
 
     // ---------------------------------------------------------------
     private Resource mapRow(ResultSet rs) throws SQLException {
+
+        java.sql.Time open = rs.getTime("open_time");
+        java.sql.Time close = rs.getTime("close_time");
+
         return new Resource(
                 rs.getInt("id"),
                 rs.getString("name"),
                 rs.getString("type"),
                 rs.getString("location"),
                 rs.getInt("capacity"),
+                open != null ? open.toLocalTime() : null,
+                close != null ? close.toLocalTime() : null,
                 rs.getString("description"),
+                rs.getString("amenities"),
                 rs.getBoolean("is_active")
         );
     }

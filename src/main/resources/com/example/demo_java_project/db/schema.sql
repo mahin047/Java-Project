@@ -31,6 +31,7 @@ CREATE TABLE IF NOT EXISTS resources (
     ) ENGINE = InnoDB;
 
 -- ---------- BOOKINGS ----------
+-- ---------- BOOKINGS ----------
 CREATE TABLE IF NOT EXISTS bookings (
                                         id           INT AUTO_INCREMENT PRIMARY KEY,
                                         user_id      INT NOT NULL,
@@ -42,14 +43,20 @@ CREATE TABLE IF NOT EXISTS bookings (
     NOT NULL DEFAULT 'CONFIRMED',
     created_at   TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
+    -- NULL for cancelled bookings, so a cancelled slot can be re-booked
+    active_slot_key VARCHAR(80)
+    GENERATED ALWAYS AS (
+                            CASE WHEN status <> 'CANCELLED'
+                            THEN CONCAT(resource_id, '|', booking_date, '|', start_time)
+    ELSE NULL END
+    ) STORED,
+
     CONSTRAINT fk_booking_user
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     CONSTRAINT fk_booking_resource
     FOREIGN KEY (resource_id) REFERENCES resources(id) ON DELETE CASCADE,
     CONSTRAINT chk_time CHECK (end_time > start_time),
-
-    -- DB-level protection: same resource + date + start time can't be booked twice
-    CONSTRAINT uq_slot UNIQUE (resource_id, booking_date, start_time),
+    CONSTRAINT uq_active_slot UNIQUE (active_slot_key),
 
     INDEX idx_booking_user (user_id),
     INDEX idx_booking_date (booking_date)
