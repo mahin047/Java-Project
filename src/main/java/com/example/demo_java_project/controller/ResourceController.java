@@ -21,6 +21,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
+import javafx.scene.layout.FlowPane;
 
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -138,7 +139,20 @@ public class ResourceController {
         Label capacity = new Label("Capacity: " + r.getCapacity());
         capacity.getStyleClass().add("resource-meta");
 
-        VBox card = new VBox(6, header, name, location, capacity);
+        Label hours = new Label("Hours: " + r.getHoursText());
+        hours.getStyleClass().add("resource-meta");
+
+        VBox card = new VBox(6, header, name, location, capacity, hours);
+
+        if (!r.getAmenityList().isEmpty()) {
+            FlowPane amenityPane = new FlowPane(6, 6);
+            for (String a : r.getAmenityList()) {
+                Label tag = new Label(a);
+                tag.getStyleClass().add("amenity-tag");
+                amenityPane.getChildren().add(tag);
+            }
+            card.getChildren().add(amenityPane);
+        }
 
         if (!r.getDescription().isBlank()) {
             Label desc = new Label(r.getDescription());
@@ -156,11 +170,10 @@ public class ResourceController {
         if (!r.isActive()) {
             card.getStyleClass().add("resource-card-inactive");
         }
-        card.setPrefSize(235, 215);
-        card.setMinHeight(215);
+        card.setPrefSize(250, 280);
+        card.setMinHeight(280);
         return card;
     }
-
     private HBox buildActions(Resource r) {
         HBox actions = new HBox(8);
         actions.setAlignment(Pos.CENTER_LEFT);

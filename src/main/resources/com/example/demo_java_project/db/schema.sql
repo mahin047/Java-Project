@@ -25,11 +25,15 @@ CREATE TABLE IF NOT EXISTS resources (
     type        VARCHAR(30)  NOT NULL,          -- LAB, ROOM, EQUIPMENT ...
     location    VARCHAR(100),
     capacity    INT NOT NULL DEFAULT 1,
+    open_time   TIME NOT NULL DEFAULT '08:00:00',
+    close_time  TIME NOT NULL DEFAULT '20:00:00',
     description VARCHAR(255),
+    amenities   VARCHAR(255),
     is_active   BOOLEAN NOT NULL DEFAULT TRUE,
-    created_at  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-    ) ENGINE = InnoDB;
+    created_at  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
+    CONSTRAINT chk_resource_time CHECK (close_time > open_time)
+    ) ENGINE = InnoDB;
 -- ---------- BOOKINGS ----------
 -- ---------- BOOKINGS ----------
 CREATE TABLE IF NOT EXISTS bookings (
