@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<ScrollPane xmlns="http://javafx.com/javafx/26"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.demo_java_project.controller.AdminController"
+            fitToWidth="true" hbarPolicy="NEVER"
+            styleClass="page-scroll">
+    <content>
+        <VBox spacing="22">
+            <padding>
+                <Insets top="26" right="28" bottom="26" left="28"/>
+            </padding>
+
+            <HBox spacing="16">
+                <VBox styleClass="stat-card" spacing="4" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+                    <Label text="STUDENTS" styleClass="stat-title"/>
+                    <Label fx:id="studentsLabel" text="..." styleClass="stat-value"/>
+                </VBox>
+                <VBox styleClass="stat-card" spacing="4" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+                    <Label text="ADMINS" styleClass="stat-title"/>
+                    <Label fx:id="adminsLabel" text="..." styleClass="stat-value"/>
+                </VBox>
+                <VBox styleClass="stat-card" spacing="4" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+                    <Label text="ACTIVE RESOURCES" styleClass="stat-title"/>
+                    <Label fx:id="resourcesLabel" text="..." styleClass="stat-value"/>
+                </VBox>
+                <VBox styleClass="stat-card" spacing="4" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+                    <Label text="TOTAL BOOKINGS" styleClass="stat-title"/>
+                    <Label fx:id="bookingsLabel" text="..." styleClass="stat-value"/>
+                </VBox>
+            </HBox>
+
+            <VBox styleClass="panel" spacing="12">
+                <Label text="Recent bookings" styleClass="panel-title"/>
+                <VBox fx:id="recentBox" spacing="10"/>
+            </VBox>
+        </VBox>
+    </content>
+</ScrollPane>

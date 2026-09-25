@@ -1,5 +1,6 @@
 package com.example.demo_java_project.controller;
 
+import com.example.demo_java_project.service.NotificationService;
 import com.example.demo_java_project.dao.ResourceDAO;
 import com.example.demo_java_project.model.User;
 import com.example.demo_java_project.session.SessionManager;
@@ -21,7 +22,8 @@ public class DashboardController {
     @FXML private Label dbStatusLabel;
 
     private final ResourceDAO resourceDAO = new ResourceDAO();
-
+    private final BookingDAO bookingDAO = new BookingDAO();
+    private final NotificationService notificationService = new NotificationService();
     @FXML
     private void initialize() {
         User user = SessionManager.getCurrentUser();
@@ -34,15 +36,19 @@ public class DashboardController {
         welcomeLabel.setText(greeting() + ", " + firstName + "!");
         loadStats();
     }
-    private final BookingDAO bookingDAO = new BookingDAO();
+    //private final BookingDAO bookingDAO = new BookingDAO();
     private void loadStats() {
         Task<int[]> task = new Task<int[]>() {
             @Override
             protected int[] call() throws Exception {
+                int userId = SessionManager.getCurrentUser().getId();
+
                 int resources = resourceDAO.countActive();
-                int myBookings = bookingDAO.countActiveByUser(SessionManager.getCurrentUser().getId());
-                int upcoming = bookingDAO.countUpcomingByUser(SessionManager.getCurrentUser().getId());
-                return new int[]{resources, myBookings, upcoming};
+                int myBookings = bookingDAO.countActiveByUser(userId);
+                int upcoming = bookingDAO.countUpcomingByUser(userId);
+                int unreadNotifs = notificationService.countUnread(userId);
+
+                return new int[]{resources, myBookings, upcoming, unreadNotifs};
             }
         };
 
@@ -51,6 +57,7 @@ public class DashboardController {
             resourceCountLabel.setText(String.valueOf(r[0]));
             myBookingsLabel.setText(String.valueOf(r[1]));
             upcomingLabel.setText(String.valueOf(r[2]));
+            notificationsLabel.setText(String.valueOf(r[3]));
             setDbStatus("Connected", true);
         });
 
@@ -64,6 +71,10 @@ public class DashboardController {
         worker.setDaemon(true);
         worker.start();
     }
+
+
+
+
 
     private void setDbStatus(String text, boolean ok) {
         dbStatusLabel.getStyleClass().removeAll("success-label", "error-label");

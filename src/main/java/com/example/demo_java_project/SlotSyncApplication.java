@@ -31,7 +31,7 @@ public class SlotSyncApplication extends Application {
         stage.centerOnScreen();
         stage.show();
 
-        seedTestUsersInBackground();
+      //  seedTestUsersInBackground();
     }
 
     /** DEV ONLY: creates admin/student test accounts without freezing the UI. */

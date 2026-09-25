@@ -30,6 +30,10 @@
     </HBox>
 
     <Label fx:id="hoursLabel" styleClass="small-text"/>
+    <Label fx:id="holidayBanner"
+           visible="false" managed="false"
+           wrapText="true" maxWidth="Infinity"
+           styleClass="holiday-banner"/>
 
     <HBox spacing="18" alignment="CENTER_LEFT">
         <HBox spacing="6" alignment="CENTER_LEFT">

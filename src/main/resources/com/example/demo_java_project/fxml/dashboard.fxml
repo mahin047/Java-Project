@@ -36,19 +36,21 @@
                 <VBox styleClass="stat-card" spacing="4" HBox.hgrow="ALWAYS" maxWidth="Infinity">
                     <Label text="MY BOOKINGS" styleClass="stat-title"/>
                     <Label fx:id="myBookingsLabel" text="0" styleClass="stat-value"/>
-                    <Label text="Booking module: upcoming phase" styleClass="stat-note"/>
+
+                    <Label text="Your active bookings" styleClass="stat-note"/>
                 </VBox>
 
                 <VBox styleClass="stat-card" spacing="4" HBox.hgrow="ALWAYS" maxWidth="Infinity">
                     <Label text="UPCOMING" styleClass="stat-title"/>
                     <Label fx:id="upcomingLabel" text="0" styleClass="stat-value"/>
-                    <Label text="Booking module: upcoming phase" styleClass="stat-note"/>
+
+                    <Label text="Confirmed, not yet started" styleClass="stat-note"/>
                 </VBox>
 
                 <VBox styleClass="stat-card" spacing="4" HBox.hgrow="ALWAYS" maxWidth="Infinity">
                     <Label text="NOTIFICATIONS" styleClass="stat-title"/>
                     <Label fx:id="notificationsLabel" text="0" styleClass="stat-value"/>
-                    <Label text="Notification module: upcoming phase" styleClass="stat-note"/>
+                    <Label text="Unread notifications" styleClass="stat-note"/>
                 </VBox>
             </HBox>
 

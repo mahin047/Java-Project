@@ -1,5 +1,9 @@
 package com.example.demo_java_project.controller;
 
+import com.example.demo_java_project.api.ApiClient;
+import com.example.demo_java_project.api.dto.HolidayDto;
+import java.util.HashMap;
+import java.util.Map;
 import com.example.demo_java_project.concurrency.BookingTask;
 import com.example.demo_java_project.exception.ServiceException;
 import com.example.demo_java_project.model.Resource;
@@ -25,10 +29,15 @@ public class BookingController {
     @FXML private ComboBox<Resource> resourceBox;
     @FXML private DatePicker datePicker;
     @FXML private Label hoursLabel;
+    @FXML private Label holidayBanner;
     @FXML private FlowPane slotPane;
 
     private final BookingService bookingService = new BookingService();
     private final ResourceService resourceService = new ResourceService();
+    private static final String COUNTRY_CODE = "US";   // change to your country's ISO code if supported
+
+    private final ApiClient apiClient = new ApiClient();
+    private final Map<Integer, List<HolidayDto>> holidayCache = new HashMap<>();
 
     private int loadToken = 0;   // guards against a slow, stale load overwriting a newer one
 
@@ -74,6 +83,7 @@ public class BookingController {
         if (resource == null || date == null) return;
 
         hoursLabel.setText(resource.getName() + " hours: " + resource.getHoursText());
+        checkHoliday(date);
         slotPane.getChildren().clear();
 
         final int myToken = ++loadToken;
@@ -144,6 +154,44 @@ public class BookingController {
         });
 
         run(task);
+    }
+    private void checkHoliday(LocalDate date) {
+        holidayBanner.setVisible(false);
+        holidayBanner.setManaged(false);
+
+        List<HolidayDto> cached = holidayCache.get(date.getYear());
+        if (cached != null) {
+            showHolidayIfAny(cached, date);
+            return;
+        }
+
+        Task<List<HolidayDto>> task = new Task<List<HolidayDto>>() {
+            @Override
+            protected List<HolidayDto> call() {
+                return apiClient.getPublicHolidays(date.getYear(), COUNTRY_CODE);
+            }
+        };
+
+        task.setOnSucceeded(e -> {
+            holidayCache.put(date.getYear(), task.getValue());
+            showHolidayIfAny(task.getValue(), date);
+        });
+        // failures are ignored on purpose — holiday info is a nice-to-have, not critical
+
+        run(task);
+    }
+
+    private void showHolidayIfAny(List<HolidayDto> holidays, LocalDate date) {
+        String iso = date.toString();   // yyyy-MM-dd, same format the API uses
+
+        for (HolidayDto h : holidays) {
+            if (iso.equals(h.getDate())) {
+                holidayBanner.setText("📅 Public holiday: " + h.getLocalName());
+                holidayBanner.setVisible(true);
+                holidayBanner.setManaged(true);
+                return;
+            }
+        }
     }
 
     private void run(Task<?> task) {

@@ -135,4 +135,72 @@ public class BookingDAO {
                 rs.getTimestamp("created_at").toLocalDateTime()
         );
     }
+    public int countAllActive() throws SQLException {
+        String sql = "SELECT COUNT(*) FROM bookings WHERE status <> 'CANCELLED'";
+        try (Connection con = DatabaseConnection.getConnection();
+             Statement st = con.createStatement();
+             ResultSet rs = st.executeQuery(sql)) {
+            return rs.next() ? rs.getInt(1) : 0;
+        }
+    }
+
+    /** Lightweight rows for the admin dashboard's recent-bookings list. */
+    public List<BookingSummary> findRecentForAdmin(int limit) throws SQLException {
+        String sql = "SELECT b.id, r.name AS resource_name, u.full_name AS student_name, "
+                + "b.booking_date, b.start_time, b.end_time, b.status "
+                + "FROM bookings b "
+                + "JOIN resources r ON r.id = b.resource_id "
+                + "JOIN users u ON u.id = b.user_id "
+                + "ORDER BY b.created_at DESC LIMIT ?";
+
+        List<BookingSummary> result = new ArrayList<>();
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, limit);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    result.add(new BookingSummary(
+                            rs.getInt("id"),
+                            rs.getString("resource_name"),
+                            rs.getString("student_name"),
+                            rs.getDate("booking_date").toLocalDate(),
+                            rs.getTime("start_time").toLocalTime(),
+                            rs.getTime("end_time").toLocalTime(),
+                            BookingStatus.valueOf(rs.getString("status"))
+                    ));
+                }
+            }
+        }
+        return result;
+    }
+
+    public static class BookingSummary {
+        private final int id;
+        private final String resourceName;
+        private final String studentName;
+        private final LocalDate date;
+        private final LocalTime startTime;
+        private final LocalTime endTime;
+        private final BookingStatus status;
+
+        public BookingSummary(int id, String resourceName, String studentName, LocalDate date,
+                              LocalTime startTime, LocalTime endTime, BookingStatus status) {
+            this.id = id;
+            this.resourceName = resourceName;
+            this.studentName = studentName;
+            this.date = date;
+            this.startTime = startTime;
+            this.endTime = endTime;
+            this.status = status;
+        }
+
+        public int getId()               { return id; }
+        public String getResourceName()  { return resourceName; }
+        public String getStudentName()   { return studentName; }
+        public LocalDate getDate()       { return date; }
+        public LocalTime getStartTime()  { return startTime; }
+        public LocalTime getEndTime()    { return endTime; }
+        public BookingStatus getStatus() { return status; }
+    }
 }

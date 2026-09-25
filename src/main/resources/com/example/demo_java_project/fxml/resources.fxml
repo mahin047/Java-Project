@@ -27,13 +27,26 @@
                    HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
 
         <ComboBox fx:id="typeFilter" prefWidth="160" styleClass="filter-combo"/>
+        <Button fx:id="exportButton"
+                text="Export JSON"
+                onAction="#handleExport"
+                visible="false" managed="false"
+                focusTraversable="false"
+                styleClass="secondary-button"/>
 
+        <Button fx:id="importButton"
+                text="Import JSON"
+                onAction="#handleImport"
+                visible="false" managed="false"
+                focusTraversable="false"
+                styleClass="secondary-button"/>
         <Button fx:id="addButton"
                 text="+ Add Resource"
                 onAction="#handleAdd"
                 visible="false" managed="false"
                 focusTraversable="false"
                 styleClass="add-button"/>
+
     </HBox>
 
     <Label fx:id="countLabel" styleClass="small-text"/>

@@ -80,11 +80,20 @@
         </VBox>
     </left>
 
-    <!-- ================= TOP BAR ================= -->
     <top>
-        <HBox styleClass="topbar" alignment="CENTER_LEFT">
+        <HBox styleClass="topbar" alignment="CENTER_LEFT" spacing="14">
             <Label fx:id="pageTitle" text="Dashboard" styleClass="page-title"/>
             <Region HBox.hgrow="ALWAYS"/>
+
+            <StackPane>
+                <Button fx:id="notifBell" text="🔔" onAction="#handleBell"
+                        focusTraversable="false" styleClass="bell-button"/>
+                <Label fx:id="notifBadge" text="0"
+                       visible="false" managed="false"
+                       styleClass="notif-badge"
+                       StackPane.alignment="TOP_RIGHT"/>
+            </StackPane>
+
             <Label fx:id="dateLabel" styleClass="date-chip"/>
         </HBox>
     </top>

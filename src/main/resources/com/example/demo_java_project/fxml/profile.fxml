@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<ScrollPane xmlns="http://javafx.com/javafx/26"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.demo_java_project.controller.ProfileController"
+            fitToWidth="true" hbarPolicy="NEVER"
+            styleClass="page-scroll">
+    <content>
+        <VBox spacing="22">
+            <padding>
+                <Insets top="26" right="28" bottom="26" left="28"/>
+            </padding>
+
+            <VBox styleClass="panel" spacing="14" maxWidth="480">
+                <Label text="Account information" styleClass="panel-title"/>
+
+                <StackPane styleClass="avatar-large"
+                           minWidth="64" minHeight="64" maxWidth="64" maxHeight="64">
+                    <Label fx:id="avatarLabel" styleClass="avatar-large-text"/>
+                </StackPane>
+
+                <VBox spacing="4">
+                    <Label text="Full Name" styleClass="input-label"/>
+                    <Label fx:id="nameLabel" styleClass="profile-value"/>
+                </VBox>
+                <VBox spacing="4">
+                    <Label text="Email" styleClass="input-label"/>
+                    <Label fx:id="emailLabel" styleClass="profile-value"/>
+                </VBox>
+                <VBox spacing="4">
+                    <Label text="Student ID" styleClass="input-label"/>
+                    <Label fx:id="studentIdLabel" styleClass="profile-value"/>
+                </VBox>
+                <VBox spacing="4">
+                    <Label text="Role" styleClass="input-label"/>
+                    <Label fx:id="roleLabel" styleClass="profile-value"/>
+                </VBox>
+                <VBox spacing="4">
+                    <Label text="Member Since" styleClass="input-label"/>
+                    <Label fx:id="memberSinceLabel" styleClass="profile-value"/>
+                </VBox>
+            </VBox>
+
+            <VBox styleClass="panel" spacing="12" maxWidth="480">
+                <Label text="Change password" styleClass="panel-title"/>
+
+                <VBox spacing="5">
+                    <Label text="Current Password" styleClass="input-label"/>
+                    <PasswordField fx:id="oldPasswordField" styleClass="input-field"/>
+                </VBox>
+                <VBox spacing="5">
+                    <Label text="New Password" styleClass="input-label"/>
+                    <PasswordField fx:id="newPasswordField" styleClass="input-field"
+                                   promptText="Min 8 characters, letters + digits"/>
+                </VBox>
+                <VBox spacing="5">
+                    <Label text="Confirm New Password" styleClass="input-label"/>
+                    <PasswordField fx:id="confirmPasswordField" styleClass="input-field"/>
+                </VBox>
+
+                <Label fx:id="messageLabel"
+                       visible="false" managed="false"
+                       wrapText="true" maxWidth="Infinity"/>
+
+                <Button fx:id="changePasswordButton"
+                        text="Update Password"
+                        onAction="#handleChangePassword"
+                        styleClass="primary-button"/>
+            </VBox>
+        </VBox>
+    </content>
+</ScrollPane>

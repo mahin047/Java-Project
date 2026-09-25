@@ -1,4 +1,5 @@
 package com.example.demo_java_project.service;
+import com.example.demo_java_project.service.NotificationService;
 
 import com.example.demo_java_project.concurrency.BookingLockManager;
 import com.example.demo_java_project.dao.BookingDAO;
@@ -25,6 +26,7 @@ public class BookingService {
 
     private final BookingDAO bookingDAO = new BookingDAO();
     private final ResourceDAO resourceDAO = new ResourceDAO();
+    private final NotificationService notificationService = new NotificationService();
 
     /** All hourly slots for a resource on a date, each marked free / booked / past. */
     public List<Slot> getSlots(int resourceId, LocalDate date) throws ServiceException {
@@ -67,7 +69,9 @@ public class BookingService {
 
                 LocalTime endTime = startTime.plusMinutes(SLOT_MINUTES);
                 int id = bookingDAO.insert(user.getId(), resourceId, date, startTime, endTime);
-
+                notificationService.notify(user.getId(),
+                        "Your booking for " + resource.getName() + " on " + date
+                                + " at " + startTime + " is confirmed.");
                 return new Booking(id, user.getId(), resourceId, resource.getName(),
                         date, startTime, endTime, BookingStatus.CONFIRMED, LocalDateTime.now());
             });
@@ -100,6 +104,9 @@ public class BookingService {
         }
         try {
             bookingDAO.cancel(booking.getId(), booking.getUserId());
+            notificationService.notify(booking.getUserId(),
+                    "Your booking for " + booking.getResourceName() + " on " + booking.getDateText()
+                            + " at " + booking.getTimeText() + " has been cancelled.");
         } catch (SQLException e) {
             throw new ServiceException("Could not cancel the booking. Please try again.", e);
         }

@@ -80,6 +80,27 @@ public class AuthService {
                     "Cannot connect to the database. Please try again later.", e);
         }
     }
+    public void changePassword(int userId, String oldPassword, String newPassword) throws AuthenticationException {
+        try {
+            Optional<User> found = userDAO.findById(userId);
+            if (found.isEmpty()) {
+                throw new AuthenticationException("User not found.");
+            }
+            if (!PasswordUtil.verify(oldPassword, found.get().getPasswordHash())) {
+                throw new AuthenticationException("Current password is incorrect.");
+            }
+
+            String error = Validator.passwordError(newPassword);
+            if (error != null) {
+                throw new AuthenticationException(error);
+            }
+
+            userDAO.updatePassword(userId, PasswordUtil.hash(newPassword));
+
+        } catch (SQLException e) {
+            throw new AuthenticationException("Cannot connect to the database. Please try again later.", e);
+        }
+    }
 
     // ---------------------------------------------------------------
     // DEV ONLY: test accounts (remove before final submission)

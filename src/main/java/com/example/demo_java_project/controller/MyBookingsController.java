@@ -1,5 +1,9 @@
 package com.example.demo_java_project.controller;
 
+import com.example.demo_java_project.api.ApiClient;
+import com.example.demo_java_project.api.dto.HolidayDto;
+import java.util.HashMap;
+import java.util.Map;
 import com.example.demo_java_project.concurrency.BookingTask;
 import com.example.demo_java_project.exception.ServiceException;
 import com.example.demo_java_project.model.Booking;
@@ -21,6 +25,7 @@ public class MyBookingsController {
 
     @FXML private Label countLabel;
     @FXML private VBox listBox;
+
 
     private final BookingService bookingService = new BookingService();
 

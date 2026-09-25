@@ -1,5 +1,9 @@
 package com.example.demo_java_project.controller;
-
+import com.example.demo_java_project.api.JsonService;
+import com.example.demo_java_project.api.dto.ResourceDto;
+import javafx.stage.FileChooser;
+import java.io.File;
+import com.example.demo_java_project.util.SceneNavigator;
 import com.example.demo_java_project.exception.ServiceException;
 import com.example.demo_java_project.model.Resource;
 import com.example.demo_java_project.model.User;
@@ -33,10 +37,13 @@ public class ResourceController {
     @FXML private TextField searchField;
     @FXML private ComboBox<String> typeFilter;
     @FXML private Button addButton;
+    @FXML private Button exportButton;
+    @FXML private Button importButton;
     @FXML private Label countLabel;
     @FXML private FlowPane cardPane;
 
     private final ResourceService service = new ResourceService();
+    private final JsonService jsonService = new JsonService();
     private final PauseTransition searchDelay = new PauseTransition(Duration.millis(300));
 
     private int latestRequest = 0;     // touched only on the JavaFX thread
@@ -49,6 +56,10 @@ public class ResourceController {
 
         addButton.setVisible(admin);
         addButton.setManaged(admin);
+        exportButton.setVisible(admin);
+        exportButton.setManaged(admin);
+        importButton.setVisible(admin);
+        importButton.setManaged(admin);
 
         typeFilter.getItems().add(ALL_TYPES);
         typeFilter.getItems().addAll(Resource.TYPES);
@@ -260,6 +271,68 @@ public class ResourceController {
         Thread t = new Thread(task, name);
         t.setDaemon(true);
         t.start();
+    }
+    @FXML
+    private void handleExport() {
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle("Export Resources as JSON");
+        chooser.setInitialFileName("resources-export.json");
+        chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON files", "*.json"));
+
+        File file = chooser.showSaveDialog(SceneNavigator.getStage());
+        if (file == null) return;
+
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                List<Resource> all = service.getResources(null, null);
+                jsonService.exportResources(all, file);
+                return null;
+            }
+        };
+
+        task.setOnSucceeded(e -> AlertUtil.info("Exported", "Resources exported to:\n" + file.getName()));
+        task.setOnFailed(e -> AlertUtil.error("Export failed", messageOf(task.getException())));
+
+        startThread(task, "resource-export");
+    }
+
+    @FXML
+    private void handleImport() {
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle("Import Resources from JSON");
+        chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON files", "*.json"));
+
+        File file = chooser.showOpenDialog(SceneNavigator.getStage());
+        if (file == null) return;
+
+        Task<int[]> task = new Task<int[]>() {
+            @Override
+            protected int[] call() throws Exception {
+                List<ResourceDto> dtos = jsonService.importResources(file);
+                int success = 0, skipped = 0;
+
+                for (ResourceDto dto : dtos) {
+                    try {
+                        service.addResource(jsonService.fromDto(dto));
+                        success++;
+                    } catch (ServiceException ex) {
+                        skipped++;   // duplicate name, invalid data, etc.
+                    }
+                }
+                return new int[]{success, skipped};
+            }
+        };
+
+        task.setOnSucceeded(e -> {
+            int[] r = task.getValue();
+            AlertUtil.info("Import complete",
+                    r[0] + " resource(s) added, " + r[1] + " skipped (duplicate or invalid).");
+            loadResources();
+        });
+        task.setOnFailed(e -> AlertUtil.error("Import failed", messageOf(task.getException())));
+
+        startThread(task, "resource-import");
     }
 
     private String messageOf(Throwable ex) {
