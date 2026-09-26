@@ -40,6 +40,12 @@
                 visible="false" managed="false"
                 focusTraversable="false"
                 styleClass="secondary-button"/>
+        <Button fx:id="importUrlButton"
+                text="Import from URL"
+                onAction="#handleImportFromUrl"
+                visible="false" managed="false"
+                focusTraversable="false"
+                styleClass="secondary-button"/>
         <Button fx:id="addButton"
                 text="+ Add Resource"
                 onAction="#handleAdd"

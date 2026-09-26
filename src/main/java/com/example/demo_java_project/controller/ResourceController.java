@@ -26,6 +26,8 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.control.TextInputDialog;
+import java.util.Optional;
 
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -39,6 +41,7 @@ public class ResourceController {
     @FXML private Button addButton;
     @FXML private Button exportButton;
     @FXML private Button importButton;
+    @FXML private Button importUrlButton;
     @FXML private Label countLabel;
     @FXML private FlowPane cardPane;
 
@@ -60,6 +63,8 @@ public class ResourceController {
         exportButton.setManaged(admin);
         importButton.setVisible(admin);
         importButton.setManaged(admin);
+        importUrlButton.setVisible(admin);
+        importUrlButton.setManaged(admin);
 
         typeFilter.getItems().add(ALL_TYPES);
         typeFilter.getItems().addAll(Resource.TYPES);
@@ -222,6 +227,49 @@ public class ResourceController {
                     service.addResource(draft);
                     return null;
                 }));
+    }
+    @FXML
+    private void handleImportFromUrl() {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Import from URL");
+        dialog.setHeaderText("Enter a direct link to a JSON file");
+        dialog.setContentText("URL:");
+        dialog.getDialogPane().getStylesheets().add(
+                getClass().getResource("/com/example/demo_java_project/css/style.css").toExternalForm());
+
+        Optional<String> result = dialog.showAndWait();
+        if (result.isEmpty() || result.get().isBlank()) return;
+
+        final String url = result.get().trim();
+
+        Task<int[]> task = new Task<int[]>() {
+            @Override
+            protected int[] call() throws Exception {
+                List<ResourceDto> dtos = jsonService.importResourcesFromUrl(url);
+                int success = 0, skipped = 0;
+
+                for (ResourceDto dto : dtos) {
+                    try {
+                        service.addResource(jsonService.fromDto(dto));
+                        success++;
+                    } catch (ServiceException ex) {
+                        skipped++;
+                    }
+                }
+                return new int[]{success, skipped};
+            }
+        };
+
+        task.setOnSucceeded(e -> {
+            int[] r = task.getValue();
+            AlertUtil.info("Import complete",
+                    r[0] + " resource(s) added, " + r[1] + " skipped (duplicate or invalid).");
+            loadResources();
+        });
+        task.setOnFailed(e -> AlertUtil.error("Import failed",
+                "Could not fetch or parse that URL. Make sure it points directly to a JSON file."));
+
+        startThread(task, "resource-import-url");
     }
 
     private void handleEdit(Resource r) {

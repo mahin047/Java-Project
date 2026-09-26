@@ -87,7 +87,9 @@ public class BookingService {
 
     public List<Booking> getMyBookings() throws ServiceException {
         User user = requireLogin();
+
         try {
+            bookingDAO.completePastBookings();
             return bookingDAO.findByUser(user.getId());
         } catch (SQLException e) {
             throw new ServiceException("Could not load your bookings. Please try again.", e);

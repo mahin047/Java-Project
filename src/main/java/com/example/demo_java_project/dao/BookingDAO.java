@@ -110,7 +110,7 @@ public class BookingDAO {
     }
 
     public int countActiveByUser(int userId) throws SQLException {
-        String sql = "SELECT COUNT(*) FROM bookings WHERE user_id = ? AND status <> 'CANCELLED'";
+        String sql = "SELECT COUNT(*) FROM bookings WHERE user_id = ? AND status = 'CONFIRMED'";
 
         try (Connection con = DatabaseConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -202,5 +202,17 @@ public class BookingDAO {
         public LocalTime getStartTime()  { return startTime; }
         public LocalTime getEndTime()    { return endTime; }
         public BookingStatus getStatus() { return status; }
+    }
+    /** Marks past CONFIRMED bookings as COMPLETED. Safe to call often — it's a simple UPDATE. */
+    public void completePastBookings() throws SQLException {
+        String sql = "UPDATE bookings SET status = 'COMPLETED' "
+                + "WHERE status = 'CONFIRMED' "
+                + "AND (booking_date < CURDATE() "
+                + "     OR (booking_date = CURDATE() AND end_time <= CURTIME()))";
+
+        try (Connection con = DatabaseConnection.getConnection();
+             Statement st = con.createStatement()) {
+            st.executeUpdate(sql);
+        }
     }
 }

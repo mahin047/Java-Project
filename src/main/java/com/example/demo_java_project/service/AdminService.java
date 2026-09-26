@@ -21,6 +21,7 @@ public class AdminService {
     public Overview getOverview() throws ServiceException {
         requireAdmin();
         try {
+            bookingDAO.completePastBookings();
             int totalStudents  = userDAO.countByRole(Role.STUDENT);
             int totalAdmins    = userDAO.countByRole(Role.ADMIN);
             int totalResources = resourceDAO.countActive();

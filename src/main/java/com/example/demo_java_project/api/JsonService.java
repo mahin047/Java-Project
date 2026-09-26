@@ -6,6 +6,11 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,6 +39,30 @@ public class JsonService {
 
     public List<ResourceDto> importResources(File file) throws IOException {
         ResourceDto[] array = mapper.readValue(file, ResourceDto[].class);
+        List<ResourceDto> list = new ArrayList<>();
+        for (ResourceDto d : array) list.add(d);
+        return list;
+    }
+    /** Downloads a JSON array of resources from a URL (must return raw JSON, not an HTML page). */
+    public List<ResourceDto> importResourcesFromUrl(String url) throws IOException, InterruptedException {
+        HttpClient client = HttpClient.newBuilder()
+                .connectTimeout(Duration.ofSeconds(8))
+                .build();
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .timeout(Duration.ofSeconds(8))
+                .header("Accept", "application/json")
+                .GET()
+                .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() != 200) {
+            throw new IOException("Server returned status " + response.statusCode());
+        }
+
+        ResourceDto[] array = mapper.readValue(response.body(), ResourceDto[].class);
         List<ResourceDto> list = new ArrayList<>();
         for (ResourceDto d : array) list.add(d);
         return list;
