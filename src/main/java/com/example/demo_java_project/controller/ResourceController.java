@@ -208,6 +208,15 @@ public class ResourceController {
             toggle.setOnAction(e -> handleToggle(r));
 
             actions.getChildren().addAll(edit, toggle);
+            // Delete only offered once a resource is already deactivated — a safety step
+            if (!r.isActive()) {
+                Button delete = new Button("Delete");
+                delete.getStyleClass().add("card-button-danger");
+                delete.setFocusTraversable(false);
+                delete.setOnAction(e -> handleDelete(r));
+                actions.getChildren().add(delete);
+            }
+
 
         } else {
             Button book = new Button("Book Slot");
@@ -298,6 +307,16 @@ public class ResourceController {
             return null;
         });
     }
+    private void handleDelete(Resource r) {
+        boolean ok = AlertUtil.confirm("Delete Resource",
+                "Permanently delete \"" + r.getName() + "\"? This cannot be undone.");
+        if (!ok) return;
+
+        runAsync(() -> {
+            service.deleteResource(r.getId());
+            return null;
+        });
+    }
 
     /** Runs a write operation off the UI thread, then refreshes the list. */
     private void runAsync(Callable<Void> work) {
@@ -338,6 +357,7 @@ public class ResourceController {
                 return null;
             }
         };
+
 
         task.setOnSucceeded(e -> AlertUtil.info("Exported", "Resources exported to:\n" + file.getName()));
         task.setOnFailed(e -> AlertUtil.error("Export failed", messageOf(task.getException())));

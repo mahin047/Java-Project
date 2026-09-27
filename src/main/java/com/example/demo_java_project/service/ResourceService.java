@@ -61,6 +61,23 @@ public class ResourceService extends AdminRestrictedService {
             throw translate(e);
         }
     }
+    /**
+     * Permanently removes a resource. Blocked if any booking (past or present)
+     * references it, since deleting would cascade-delete that booking history.
+     */
+    public void deleteResource(int resourceId) throws ServiceException {
+        requireAdmin();
+        try {
+            if (resourceDAO.hasBookings(resourceId)) {
+                throw new ServiceException(
+                        "Cannot delete: this resource has booking history. "
+                                + "Deactivate it instead to keep the records.");
+            }
+            resourceDAO.delete(resourceId);
+        } catch (SQLException e) {
+            throw translate(e);
+        }
+    }
 
     // ---------------------------------------------------------------
     //private boolean isAdmin() {

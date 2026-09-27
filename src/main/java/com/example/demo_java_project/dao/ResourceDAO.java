@@ -178,6 +178,29 @@ public class ResourceDAO implements Crud<Resource> {
                 rs.getBoolean("is_active")
         );
     }
+    public boolean hasBookings(int resourceId) throws SQLException {
+        String sql = "SELECT 1 FROM bookings WHERE resource_id = ? LIMIT 1";
+
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, resourceId);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        }
+    }
+
+    public void delete(int resourceId) throws SQLException {
+        String sql = "DELETE FROM resources WHERE id = ?";
+
+        try (Connection con = DatabaseConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, resourceId);
+            ps.executeUpdate();
+        }
+    }
 
     private String escapeLike(String s) {
         return s.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_");
