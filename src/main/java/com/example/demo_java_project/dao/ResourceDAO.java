@@ -13,7 +13,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ResourceDAO {
+public class ResourceDAO implements Crud<Resource> {
 
     private static final String COLUMNS =
 
@@ -58,6 +58,10 @@ public class ResourceDAO {
         }
         return result;
     }
+    @Override
+    public List<Resource> findAll() throws SQLException {
+        return search(null, null, true);
+    }
     public Optional<Resource> findById(int id) throws SQLException {
         String sql = "SELECT " + COLUMNS + " FROM resources WHERE id = ?";
 
@@ -85,6 +89,7 @@ public class ResourceDAO {
         }
     }
 
+    @Override
     public int insert(Resource r) throws SQLException {
         String sql = "INSERT INTO resources "
                 + "(name, type, location, capacity, open_time, close_time, description, amenities, is_active) "
@@ -101,7 +106,7 @@ public class ResourceDAO {
             }
         }
     }
-
+    @Override
     public void update(Resource r) throws SQLException {
         String sql = "UPDATE resources SET name = ?, type = ?, location = ?, capacity = ?, "
                 + "open_time = ?, close_time = ?, description = ?, amenities = ?, is_active = ? "

@@ -1,5 +1,6 @@
 package com.example.demo_java_project.controller;
 
+import com.example.demo_java_project.concurrency.AppExecutor;
 import com.example.demo_java_project.service.NotificationService;
 import com.example.demo_java_project.dao.ResourceDAO;
 import com.example.demo_java_project.model.User;
@@ -67,9 +68,7 @@ public class DashboardController {
             task.getException().printStackTrace();
         });
 
-        Thread worker = new Thread(task, "dashboard-stats");
-        worker.setDaemon(true);
-        worker.start();
+        AppExecutor.submit(task);
     }
 
 

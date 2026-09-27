@@ -1,5 +1,6 @@
 package com.example.demo_java_project.controller;
 
+import com.example.demo_java_project.concurrency.AppExecutor;
 import javafx.concurrent.Task;
 import com.example.demo_java_project.model.Notification;
 import com.example.demo_java_project.service.NotificationService;
@@ -149,9 +150,7 @@ public class MainLayoutController {
         task.setOnSucceeded(e -> renderNotificationPopup(task.getValue()));
         task.setOnFailed(e -> task.getException().printStackTrace());
 
-        Thread t = new Thread(task, "notif-loader");
-        t.setDaemon(true);
-        t.start();
+        AppExecutor.submit(task);
     }
 
     private void renderNotificationPopup(List<Notification> notifications) {
@@ -223,9 +222,7 @@ public class MainLayoutController {
         };
         task.setOnSucceeded(e -> refreshNotificationBadge());
 
-        Thread t = new Thread(task, "notif-mark-read");
-        t.setDaemon(true);
-        t.start();
+        AppExecutor.submit(task);
     }
 
     private void refreshNotificationBadge() {
@@ -245,8 +242,6 @@ public class MainLayoutController {
             notifBadge.setManaged(count > 0);
         });
 
-        Thread t = new Thread(task, "notif-badge");
-        t.setDaemon(true);
-        t.start();
+        AppExecutor.submit(task);
     }
 }

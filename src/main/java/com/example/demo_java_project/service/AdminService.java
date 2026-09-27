@@ -1,5 +1,6 @@
 package com.example.demo_java_project.service;
 
+
 import com.example.demo_java_project.dao.BookingDAO;
 import com.example.demo_java_project.dao.ResourceDAO;
 import com.example.demo_java_project.dao.UserDAO;
@@ -12,7 +13,7 @@ import com.example.demo_java_project.session.SessionManager;
 import java.sql.SQLException;
 import java.util.List;
 
-public class AdminService {
+public class AdminService extends AdminRestrictedService  {
 
     private final UserDAO userDAO = new UserDAO();
     private final ResourceDAO resourceDAO = new ResourceDAO();
@@ -35,12 +36,12 @@ public class AdminService {
         }
     }
 
-    private void requireAdmin() throws PermissionDeniedException {
-        User user = SessionManager.getCurrentUser();
-        if (user == null || !user.isAdmin()) {
-            throw new PermissionDeniedException("Only administrators can view this page.");
-        }
-    }
+//    private void requireAdmin() throws PermissionDeniedException {
+//        User user = SessionManager.getCurrentUser();
+//        if (user == null || !user.isAdmin()) {
+//            throw new PermissionDeniedException("Only administrators can view this page.");
+//        }
+//    }
 
     public static class Overview {
         private final int totalStudents;

@@ -1,5 +1,6 @@
 package com.example.demo_java_project.controller;
 
+import com.example.demo_java_project.concurrency.AppExecutor;
 import com.example.demo_java_project.exception.RegistrationException;
 import com.example.demo_java_project.model.User;
 import com.example.demo_java_project.service.AuthService;
@@ -122,9 +123,7 @@ public class SignupController {
             shake(formBox);
         });
 
-        Thread worker = new Thread(registerTask, "register-worker");
-        worker.setDaemon(true);
-        worker.start();
+        AppExecutor.submit(registerTask);
     }
 
     @FXML

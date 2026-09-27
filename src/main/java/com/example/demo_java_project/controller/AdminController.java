@@ -1,4 +1,6 @@
 package com.example.demo_java_project.controller;
+
+import com.example.demo_java_project.concurrency.AppExecutor;
 import com.example.demo_java_project.model.User;
 import javafx.scene.layout.StackPane;
 
@@ -46,9 +48,7 @@ public class AdminController {
             recentBox.getChildren().setAll(error);
         });
 
-        Thread t = new Thread(task, "admin-overview");
-        t.setDaemon(true);
-        t.start();
+        AppExecutor.submit(task);
     }
 
     private void render(AdminService.Overview overview) {

@@ -1,5 +1,6 @@
 package com.example.demo_java_project.controller;
 
+import com.example.demo_java_project.concurrency.AppExecutor;
 import com.example.demo_java_project.api.ApiClient;
 import com.example.demo_java_project.api.dto.HolidayDto;
 import java.util.HashMap;
@@ -195,9 +196,7 @@ public class BookingController {
     }
 
     private void run(Task<?> task) {
-        Thread t = new Thread(task, "booking-worker");
-        t.setDaemon(true);
-        t.start();
+        AppExecutor.submit(task);
     }
 
     private String messageOf(Throwable ex) {

@@ -1,5 +1,6 @@
 package com.example.demo_java_project;
 
+import com.example.demo_java_project.concurrency.AppExecutor;
 import com.example.demo_java_project.service.AuthService;
 import com.example.demo_java_project.util.SceneNavigator;
 import javafx.application.Application;
@@ -32,6 +33,10 @@ public class SlotSyncApplication extends Application {
         stage.show();
 
       //  seedTestUsersInBackground();
+    }
+    @Override
+    public void stop() {
+        AppExecutor.shutdown();
     }
 
     /** DEV ONLY: creates admin/student test accounts without freezing the UI. */

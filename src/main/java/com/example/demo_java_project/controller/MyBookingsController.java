@@ -1,5 +1,6 @@
 package com.example.demo_java_project.controller;
 
+import com.example.demo_java_project.concurrency.AppExecutor;
 import com.example.demo_java_project.api.ApiClient;
 import com.example.demo_java_project.api.dto.HolidayDto;
 import java.util.HashMap;
@@ -45,9 +46,7 @@ public class MyBookingsController {
             countLabel.setText(messageOf(task.getException()));
         });
 
-        Thread t = new Thread(task, "my-bookings-loader");
-        t.setDaemon(true);
-        t.start();
+        AppExecutor.submit(task);
     }
 
     private void render(List<Booking> bookings) {
@@ -111,9 +110,7 @@ public class MyBookingsController {
         task.setOnSucceeded(e -> loadBookings());
         task.setOnFailed(e -> AlertUtil.error("Could not cancel", messageOf(task.getException())));
 
-        Thread t = new Thread(task, "cancel-worker");
-        t.setDaemon(true);
-        t.start();
+        AppExecutor.submit(task);
     }
 
     private String statusStyle(BookingStatus status) {

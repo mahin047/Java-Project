@@ -1,4 +1,6 @@
 package com.example.demo_java_project.controller;
+
+import com.example.demo_java_project.concurrency.AppExecutor;
 import com.example.demo_java_project.api.JsonService;
 import com.example.demo_java_project.api.dto.ResourceDto;
 import javafx.stage.FileChooser;
@@ -316,9 +318,7 @@ public class ResourceController {
     // Helpers
     // ---------------------------------------------------------------
     private void startThread(Task<?> task, String name) {
-        Thread t = new Thread(task, name);
-        t.setDaemon(true);
-        t.start();
+        AppExecutor.submit(task);
     }
     @FXML
     private void handleExport() {

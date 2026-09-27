@@ -1,5 +1,6 @@
 package com.example.demo_java_project.controller;
 
+import com.example.demo_java_project.concurrency.AppExecutor;
 import com.example.demo_java_project.exception.AuthenticationException;
 import com.example.demo_java_project.model.User;
 import com.example.demo_java_project.service.AuthService;
@@ -104,9 +105,7 @@ public class LoginController {
             shake(formBox);
         });
 
-        Thread worker = new Thread(loginTask, "login-worker");
-        worker.setDaemon(true);
-        worker.start();
+        AppExecutor.submit(loginTask);
     }
 
     @FXML

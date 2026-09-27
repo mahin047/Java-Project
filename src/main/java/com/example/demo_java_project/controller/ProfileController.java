@@ -1,5 +1,6 @@
 package com.example.demo_java_project.controller;
 
+import com.example.demo_java_project.concurrency.AppExecutor;
 import com.example.demo_java_project.exception.AuthenticationException;
 import com.example.demo_java_project.model.User;
 import com.example.demo_java_project.service.AuthService;
@@ -94,9 +95,7 @@ public class ProfileController {
             }
         });
 
-        Thread t = new Thread(task, "change-password");
-        t.setDaemon(true);
-        t.start();
+        AppExecutor.submit(task);
     }
 
     private String initials(String fullName) {

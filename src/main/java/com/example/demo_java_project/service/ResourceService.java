@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.time.LocalTime;
 import java.util.List;
 
-public class ResourceService {
+public class ResourceService extends AdminRestrictedService {
 
     private static final int MYSQL_DUPLICATE_ENTRY = 1062;
 
@@ -63,16 +63,16 @@ public class ResourceService {
     }
 
     // ---------------------------------------------------------------
-    private boolean isAdmin() {
-        User user = SessionManager.getCurrentUser();
-        return user != null && user.isAdmin();
-    }
+    //private boolean isAdmin() {
+        //User user = SessionManager.getCurrentUser();
+        //return user != null && user.isAdmin();
+   // }
 
-    private void requireAdmin() throws PermissionDeniedException {
-        if (!isAdmin()) {
-            throw new PermissionDeniedException("Only administrators can perform this action.");
-        }
-    }
+    //private void requireAdmin() throws PermissionDeniedException {
+      //  if (!isAdmin()) {
+          //  throw new PermissionDeniedException("Only administrators can perform this action.");
+        //}
+  //  }
 
 
     private Resource validated(Resource r) throws ServiceException {
