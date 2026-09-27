@@ -40,6 +40,10 @@
                 <Label text="Recent bookings" styleClass="panel-title"/>
                 <VBox fx:id="recentBox" spacing="10"/>
             </VBox>
+            <VBox styleClass="panel" spacing="12">
+                <Label text="All registered users" styleClass="panel-title"/>
+                <VBox fx:id="usersBox" spacing="10"/>
+            </VBox>
         </VBox>
     </content>
 </ScrollPane>

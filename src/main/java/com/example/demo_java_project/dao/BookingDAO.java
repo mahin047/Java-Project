@@ -136,7 +136,7 @@ public class BookingDAO {
         );
     }
     public int countAllActive() throws SQLException {
-        String sql = "SELECT COUNT(*) FROM bookings WHERE status <> 'CANCELLED'";
+        String sql = "SELECT COUNT(*) FROM bookings WHERE status = 'CONFIRMED'";
         try (Connection con = DatabaseConnection.getConnection();
              Statement st = con.createStatement();
              ResultSet rs = st.executeQuery(sql)) {

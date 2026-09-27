@@ -3,6 +3,8 @@ package com.example.demo_java_project.dao;
 import com.example.demo_java_project.database.DatabaseConnection;
 import com.example.demo_java_project.model.Role;
 import com.example.demo_java_project.model.User;
+import java.util.ArrayList;
+import java.util.List;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -45,6 +47,18 @@ public class UserDAO {
                 return rs.next();
             }
         }
+    }
+    public List<User> findAll() throws SQLException {
+        String sql = "SELECT " + COLUMNS + " FROM users ORDER BY created_at DESC";
+
+        List<User> result = new ArrayList<>();
+        try (Connection con = DatabaseConnection.getConnection();
+             Statement st = con.createStatement();
+             ResultSet rs = st.executeQuery(sql)) {
+
+            while (rs.next()) result.add(mapRow(rs));
+        }
+        return result;
     }
     public boolean existsByStudentId(String studentId) throws SQLException {
         String sql = "SELECT 1 FROM users WHERE student_id = ? LIMIT 1";

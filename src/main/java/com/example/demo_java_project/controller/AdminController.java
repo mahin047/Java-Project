@@ -1,4 +1,6 @@
 package com.example.demo_java_project.controller;
+import com.example.demo_java_project.model.User;
+import javafx.scene.layout.StackPane;
 
 import com.example.demo_java_project.dao.BookingDAO;
 import com.example.demo_java_project.exception.ServiceException;
@@ -22,6 +24,7 @@ public class AdminController {
     @FXML private Label resourcesLabel;
     @FXML private Label bookingsLabel;
     @FXML private VBox recentBox;
+    @FXML private VBox usersBox;
 
     private final AdminService adminService = new AdminService();
 
@@ -88,5 +91,61 @@ public class AdminController {
 
             recentBox.getChildren().add(row);
         }
+        usersBox.getChildren().clear();
+        List<User> users = overview.getAllUsers();
+
+        if (users.isEmpty()) {
+            Label empty = new Label("No users yet.");
+            empty.getStyleClass().add("coming-soon-text");
+            usersBox.getChildren().add(empty);
+        } else {
+            for (User u : users) {
+                usersBox.getChildren().add(buildUserRow(u));
+            }
+        }
     }
-}
+
+    private HBox buildUserRow(User u) {
+        Label avatarText = new Label(initials(u.getFullName()));
+        avatarText.getStyleClass().add("avatar-text");
+
+        StackPane avatarPane = new StackPane(avatarText);
+        avatarPane.getStyleClass().add("avatar");
+        avatarPane.setMinSize(38, 38);
+        avatarPane.setMaxSize(38, 38);
+
+        Label name = new Label(u.getFullName());
+        name.getStyleClass().add("resource-name");
+
+        String metaText = u.getStudentId() == null
+                ? u.getEmail()
+                : u.getStudentId() + "  •  " + u.getEmail();
+        Label meta = new Label(metaText);
+        meta.getStyleClass().add("resource-meta");
+
+        VBox info = new VBox(4, name, meta);
+
+        Label roleChip = new Label(u.getRole().name());
+        roleChip.getStyleClass().addAll("type-chip", u.isAdmin() ? "type-equipment" : "type-room");
+
+        Label joined = new Label(u.getCreatedAt() != null
+                ? u.getCreatedAt().format(DateTimeFormatter.ofPattern("dd MMM yyyy"))
+                : "-");
+        joined.getStyleClass().add("small-text");
+
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+
+        HBox row = new HBox(12, avatarPane, info, spacer, roleChip, joined);
+        row.setAlignment(Pos.CENTER_LEFT);
+        row.getStyleClass().add("resource-card");
+        return row;
+    }
+
+    private String initials(String fullName) {
+        String[] parts = fullName.trim().split("\\s+");
+        if (parts[0].isEmpty()) return "?";
+        if (parts.length == 1) return parts[0].substring(0, 1).toUpperCase();
+        return (parts[0].substring(0, 1) + parts[parts.length - 1].substring(0, 1)).toUpperCase();
+    }
+    }

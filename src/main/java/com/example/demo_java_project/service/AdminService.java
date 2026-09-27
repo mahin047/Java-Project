@@ -21,14 +21,14 @@ public class AdminService {
     public Overview getOverview() throws ServiceException {
         requireAdmin();
         try {
-            bookingDAO.completePastBookings();
             int totalStudents  = userDAO.countByRole(Role.STUDENT);
             int totalAdmins    = userDAO.countByRole(Role.ADMIN);
             int totalResources = resourceDAO.countActive();
             int totalBookings  = bookingDAO.countAllActive();
             List<BookingDAO.BookingSummary> recent = bookingDAO.findRecentForAdmin(10);
+            List<User> allUsers = userDAO.findAll();
 
-            return new Overview(totalStudents, totalAdmins, totalResources, totalBookings, recent);
+            return new Overview(totalStudents, totalAdmins, totalResources, totalBookings, recent, allUsers);
 
         } catch (SQLException e) {
             throw new ServiceException("Could not load admin overview. Please try again.", e);
@@ -48,14 +48,16 @@ public class AdminService {
         private final int totalResources;
         private final int totalBookings;
         private final List<BookingDAO.BookingSummary> recentBookings;
+        private final List<User> allUsers;
 
-        public Overview(int totalStudents, int totalAdmins, int totalResources,
-                        int totalBookings, List<BookingDAO.BookingSummary> recentBookings) {
+        public Overview(int totalStudents, int totalAdmins, int totalResources, int totalBookings,
+                        List<BookingDAO.BookingSummary> recentBookings, List<User> allUsers) {
             this.totalStudents = totalStudents;
             this.totalAdmins = totalAdmins;
             this.totalResources = totalResources;
             this.totalBookings = totalBookings;
             this.recentBookings = recentBookings;
+            this.allUsers = allUsers;
         }
 
         public int getTotalStudents()  { return totalStudents; }
@@ -63,5 +65,6 @@ public class AdminService {
         public int getTotalResources() { return totalResources; }
         public int getTotalBookings()  { return totalBookings; }
         public List<BookingDAO.BookingSummary> getRecentBookings() { return recentBookings; }
+        public List<User> getAllUsers() { return allUsers; }
     }
 }
